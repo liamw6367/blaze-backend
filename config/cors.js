@@ -1,6 +1,7 @@
 let originsWhitelist = [
     'http://localhost:4200',
     'http://localhost:3000',
+    'http://localhost:3001',
     'http://localhost:4202',
     'http://localhost:4201',     //this is my front-end url for development,
 ];

@@ -146,23 +146,28 @@ app.use('/test-stores', (req, res) => {
     res.send(data)
 })
 
-// // Non-auth routes
-// app.use('/auth', require('./routes/auth'));
-//
-// // Auth Routes
-//
-let dist = path.join(__dirname, 'dist/');
+// Non-auth routes
+app.use('/auth', require('./routes/auth'));
+
+// Auth Routes
+
+let distFront = path.join(__dirname, 'dist_front/');
+let distAdmin = path.join(__dirname, 'dist/');
 //
 // Static resources
-app.use(express.static(dist));
+app.use(express.static(distFront));
+app.use(express.static(distAdmin));
 app.use('/uploads/', express.static(cs.UPLOADS_FOLDER));
 
 // Separating Angular routes
 app.get('*', (req, res, next) => {
-    if (!req.url.includes('phpmyadmin')) {
-        res.sendFile(dist + 'index.html');
+    if (req.url.includes('admin')) {
+        console.log(distAdmin + 'index.html')
+        res.sendFile(distAdmin + 'index.html');
     } else {
-        res.status(404).send('Not found');
+        console.log(distFront + 'index.html')
+        // res.status(404).send('Not found');
+        res.sendFile(distFront + 'index.html');
     }
 });
 

@@ -151,20 +151,20 @@ app.use('/test-stores', (req, res) => {
 //
 // // Auth Routes
 //
-// let dist = path.join(__dirname, 'dist/');
+let dist = path.join(__dirname, 'dist/');
 //
-// // Static resources
-// app.use(express.static(dist));
-// app.use('/uploads/', express.static(cs.UPLOADS_FOLDER));
-//
-// // Separating Angular routes
-// app.get('*', (req, res, next) => {
-//     if (!req.url.includes('phpmyadmin')) {
-//         res.sendFile(dist + 'index.html');
-//     } else {
-//         res.status(404).send('Not found');
-//     }
-// });
+// Static resources
+app.use(express.static(dist));
+app.use('/uploads/', express.static(cs.UPLOADS_FOLDER));
+
+// Separating Angular routes
+app.get('*', (req, res, next) => {
+    if (!req.url.includes('phpmyadmin')) {
+        res.sendFile(dist + 'index.html');
+    } else {
+        res.status(404).send('Not found');
+    }
+});
 
 // Passport.js config
 // const passport = require('passport');

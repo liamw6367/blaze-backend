@@ -162,7 +162,7 @@ app.use('/uploads/', express.static(cs.UPLOADS_FOLDER));
 
 // Separating Angular routes
 app.get('*', (req, res, next) => {
-    if (req.url.includes('Admin')) {
+    if (req.url.includes('admin')) {
         console.log(distAdmin + 'index.html')
         res.sendFile(distAdmin + 'index.html');
     } else {

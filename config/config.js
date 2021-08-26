@@ -2,7 +2,7 @@ module.exports = {
   "development": {
     "username": "root",
     "password": process.env.DEVELOPMENT_DB_PASS,
-    "database": "secret_south_new",
+    "database": "blaze",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
@@ -14,9 +14,9 @@ module.exports = {
     "dialect": "mysql"
   },
   "production": {
-    "username": "root",
-    "password": null,
-    "database": "database_production",
+    "username": process.env.PRODUCTION_DB_USER,
+    "password": process.env.PRODUCTION_DB_PASS,
+    "database": process.env.PRODUCTION_DB,
     "host": "127.0.0.1",
     "dialect": "mysql"
   }

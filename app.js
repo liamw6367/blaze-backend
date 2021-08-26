@@ -152,7 +152,7 @@ app.use('/auth', require('./routes/auth'));
 // Auth Routes
 
 let distFront = path.join(__dirname, 'dist_front/');
-let distAdmin = path.join(__dirname, 'dist/');
+let distAdmin = path.join(__dirname, 'dist_admin/');
 //
 // Static resources
 app.use(express.static(distFront));
@@ -161,7 +161,7 @@ app.use('/uploads/', express.static(cs.UPLOADS_FOLDER));
 
 // Separating Angular routes
 app.get('*', (req, res, next) => {
-    if (req.url.includes('admin')) {
+    if (req.url.includes('Admin')) {
         console.log(distAdmin + 'index.html')
         res.sendFile(distAdmin + 'index.html');
     } else {

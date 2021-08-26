@@ -152,7 +152,7 @@ app.use('/auth', require('./routes/auth'));
 // Auth Routes
 
 let distFront = path.join(__dirname, 'dist_front/');
-let distAdmin = path.join(__dirname, 'dist/');
+let distAdmin = path.join(__dirname, 'dist_admin/');
 //
 // Static resources
 app.use(express.static(distFront));

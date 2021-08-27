@@ -10,7 +10,7 @@ exports.add = async (req, res) => {
 
 exports.get = async (req, res) => {
     const stores = await to(Stores.findAll({
-        order: ['createdAt', 'desc']
+        order: ['id', 'DESC'],
     }));
     res.json(stores);
 }

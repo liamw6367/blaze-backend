@@ -111,7 +111,7 @@ exports.login = async (req, res) => {
     if (!showIfErrors(req, res)) {
 
         let {email} = req.body;
-        let attributes = [`first_name`, `last_name`, 'email', 'birthday', 'avatar', 'cover', 'password', 'id', 'status_id'];
+        let attributes = [`first_name`, `last_name`, 'email', 'birthday', 'avatar', 'cover', 'status_id'];
 
         // Active status selecting
         let statusWhere = sequelize.where(sequelize.col('`user_status`.`name`'), 'active');
@@ -124,6 +124,8 @@ exports.login = async (req, res) => {
         }), res);
 
         if (!res.headersSent) {
+
+
 
             // User is not active
             if (!user) res.status(500).json({msg: 'You don\'t have such privileges or the account is inactive'});

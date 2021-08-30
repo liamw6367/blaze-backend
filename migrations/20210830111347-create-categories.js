@@ -20,6 +20,9 @@ module.exports = {
       thumbnail: {
         type: Sequelize.STRING
       },
+      is_active: {
+        type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

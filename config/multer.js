@@ -3,13 +3,20 @@ multer = require('multer');
 const c = require('./constants');
 const path = require('path');
 const generateFolderPath = require('../helpers/generateFolderPath');
+const fse = require('fs-extra')
 
 
 let storage = multer.diskStorage({
     destination: async function (req, file, cb) {
         const data = req.body;
         const edit = !!data.id;
+        console.log(req.body)
         let dir = await generateFolderPath(data.folder, edit, data);
+        console.log('DIR!!!!!')
+        console.log(dir)
+        console.log('DIR!!!!!')
+
+        await fse.ensureDir(dir);
 
         cb(null, dir)
     },
@@ -38,6 +45,7 @@ let upload = multer({
 
 module.exports = {
     uploadAvatar: upload.single('avatar_file'),
+    uploadImage: upload.single('image_file'),
     uploadImages: upload.array('upload_images')
 };
 

@@ -10,8 +10,17 @@ let storage = multer.diskStorage({
     destination: async function (req, file, cb) {
         const data = req.body;
         const edit = !!data.id;
-        console.log(req.body)
-        let dir = await generateFolderPath(data.folder, edit, data);
+        console.log(file.fieldname)
+        let dir;
+        if (file.fieldname === 'thumbnail_file') {
+            dir = await generateFolderPath('category_thumbs', edit, data);
+        } else if (file.fieldname === 'banner_file') {
+            dir = await generateFolderPath('category_banners', edit, data);
+        } else {
+            dir = await generateFolderPath(data.folder, edit, data);
+        }
+
+
         console.log('DIR!!!!!')
         console.log(dir)
         console.log('DIR!!!!!')
@@ -46,7 +55,12 @@ let upload = multer({
 module.exports = {
     uploadAvatar: upload.single('avatar_file'),
     uploadImage: upload.single('image_file'),
-    uploadImages: upload.array('upload_images')
+    uploadImages: upload.array('upload_images'),
+    uploadBannerThumb: upload.fields([{
+        name: 'banner_file', maxCount: 1
+    }, {
+        name: 'thumbnail_file', maxCount: 1
+    }])
 };
 
 

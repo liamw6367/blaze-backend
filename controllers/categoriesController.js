@@ -1,11 +1,20 @@
 const db = require('../models');
 const Categories = db.categories;
+
+const m = require('../config/multer');
 const to = require('../helpers/getPromiseResult');
 
 exports.add = async (req, res) => {
     let data = req.body;
-    await to(Categories.create(data));
-    this.get(req, res);
+
+    console.log("req.body", req.body)
+
+    m.uploadBannerThumb(req, res, async (err)=> {
+        let data = JSON.parse(JSON.stringify(req.body));
+        console.log(data)
+        await to(Categories.create(data));
+        this.get(req, res);
+    })
 }
 
 exports.get = async (req, res) => {

@@ -7,7 +7,7 @@ const to = require('../helpers/getPromiseResult');
 exports.add = async (req, res) => {
     let data = req.body;
 
-    m.uploadAvatar(req, res, async (err) => {
+    m.uploadImage(req, res, async (err) => {
         await to(Products.create(data));
         this.get(req, res);
     })

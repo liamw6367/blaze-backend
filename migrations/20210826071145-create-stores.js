@@ -41,6 +41,9 @@ module.exports = {
       store_email_id: {
         type: Sequelize.STRING
       },
+      password: {
+        type: Sequelize.STRING
+      },
       is_active: {
         type: Sequelize.INTEGER
       },

@@ -25,6 +25,7 @@ module.exports = (sequelize, DataTypes) => {
     blaze_person_name: DataTypes.STRING,
     address: DataTypes.STRING,
     store_email_id: DataTypes.STRING,
+    password: DataTypes.STRING,
     is_active: DataTypes.INTEGER
   }, {
     sequelize,

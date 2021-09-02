@@ -16,3 +16,14 @@ exports.get = async (req, res) => {
     }));
     res.json(stores);
 }
+
+exports.getOne = async (req, res) => {
+    const stores = await to(Stores.findOne({
+       id: req.params.id
+    }));
+    res.json(stores);
+}
+
+exports.update = async (req, res) => {
+    console.log(req.body)
+}

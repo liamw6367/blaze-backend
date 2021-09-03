@@ -19,11 +19,13 @@ exports.get = async (req, res) => {
 
 exports.getOne = async (req, res) => {
     const stores = await to(Stores.findOne({
-       id: req.params.id
+        id: req.params.id
     }));
     res.json(stores);
 }
 
 exports.update = async (req, res) => {
-    console.log(req.body)
+    let {id, ...data} = req.body;
+    await to(Stores.update(data, {where: {id}}));
+    res.json('OK');
 }

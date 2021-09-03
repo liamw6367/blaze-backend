@@ -35,6 +35,9 @@ module.exports = {
       blaze_person_name: {
         type: Sequelize.STRING
       },
+      blaze_person_number: {
+        type: Sequelize.STRING
+      },
       address: {
         type: Sequelize.STRING
       },

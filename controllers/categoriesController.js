@@ -9,7 +9,7 @@ exports.add = async (req, res) => {
 
     console.log("req.body", req.body)
 
-    m.uploadBannerThumb(req, res, async (err)=> {
+    m.uploadBannerThumb(req, res, async (err) => {
         let data = JSON.parse(JSON.stringify(req.body));
         console.log(data)
         await to(Categories.create(data));
@@ -24,4 +24,23 @@ exports.get = async (req, res) => {
         ],
     }));
     res.json(stores);
+}
+
+exports.getOne = async (req, res) => {
+    const stores = await to(Categories.findOne({
+        where: {
+            id: req.query.id
+        }
+    }));
+    // console.log(stores)
+    res.json(stores);
+}
+
+exports.update = async (req, res) => {
+
+    m.uploadBannerThumb(req, res, async (err) => {
+        let {id, ...data} = JSON.parse(JSON.stringify(req.body));
+        await to(Categories.update(data, {where: {id}}));
+        res.json('OK');
+    })
 }

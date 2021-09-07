@@ -10,10 +10,19 @@ exports.add = async (req, res) => {
     console.log("req.body", req.body)
 
     m.uploadBannerThumb(req, res, async (err) => {
-        let data = JSON.parse(JSON.stringify(req.body));
-        console.log(data)
-        await to(Categories.create(data));
-        this.get(req, res);
+
+        // Gets file type validation error
+        if (req.fileTypeError) {
+            res.status(423).json(req.fileTypeError);
+        } else {
+            let data = JSON.parse(JSON.stringify(req.body));
+            console.log(data)
+            await to(Categories.create(data));
+            this.get(req, res);
+
+        }
+
+
     })
 }
 
@@ -38,9 +47,16 @@ exports.getOne = async (req, res) => {
 
 exports.update = async (req, res) => {
 
+
     m.uploadBannerThumb(req, res, async (err) => {
-        let {id, ...data} = JSON.parse(JSON.stringify(req.body));
-        await to(Categories.update(data, {where: {id}}));
-        res.json('OK');
+
+        // Gets file type validation error
+        if (req.fileTypeError) {
+            res.status(423).json(req.fileTypeError);
+        } else {
+            let {id, ...data} = JSON.parse(JSON.stringify(req.body));
+            await to(Categories.update(data, {where: {id}}));
+            res.json('OK');
+        }
     })
 }

@@ -23,11 +23,13 @@ module.exports = {
       is_active: {
         type: Sequelize.INTEGER
       },
-      createdAt: {
+      created_at: {
+        defaultValue: Sequelize.fn('NOW'),
         allowNull: false,
         type: Sequelize.DATE
       },
-      updatedAt: {
+      updated_at: {
+        defaultValue: Sequelize.fn('NOW'),
         allowNull: false,
         type: Sequelize.DATE
       }

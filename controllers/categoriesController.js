@@ -9,6 +9,7 @@ exports.add = async (req, res) => {
 
     console.log("req.body", req.body)
 
+
     m.uploadBannerThumb(req, res, async (err) => {
 
         // Gets file type validation error

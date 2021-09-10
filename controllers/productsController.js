@@ -23,3 +23,31 @@ exports.get = async (req, res) => {
     }));
     res.json(stores);
 }
+
+
+exports.getOne = async (req, res) => {
+    const stores = await to(Products.findOne({
+        where: {
+            id: req.query.id
+        }
+    }));
+    // console.log(stores)
+    res.json(stores);
+}
+
+exports.update = async (req, res) => {
+
+
+    m.uploadImage(req, res, async (err) => {
+        let data = JSON.parse(JSON.stringify(req.body))
+        // Gets file type validation error
+        if (req.fileTypeError) {
+            res.status(423).json(req.fileTypeError);
+        } else {
+            let {id, ...data} = JSON.parse(JSON.stringify(req.body));
+            // console.log(id, data)
+            await to(Products.update(data, {where: {id: +id}}));
+            res.json('OK');
+        }
+    })
+}

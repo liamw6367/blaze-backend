@@ -29,3 +29,12 @@ exports.update = async (req, res) => {
     await to(Stores.update(data, {where: {id}}));
     res.json('OK');
 }
+
+
+exports.remove = async (req, res) => {
+    let {id} = req.query;
+    console.log('aaaaa')
+    console.log(req.query)
+    await to(Stores.destroy({where: {id}}));
+    this.get(req, res);
+}

@@ -61,3 +61,9 @@ exports.update = async (req, res) => {
         }
     })
 }
+
+exports.remove = async (req, res) => {
+    let {id} = req.query;
+    await to(Categories.destroy({where: {id}}));
+    this.get(req, res);
+}

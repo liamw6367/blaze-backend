@@ -7,5 +7,6 @@ router.post('/add', u.uploadImage, productsController.add);
 router.get('/get', productsController.get);
 router.get('/get-one', productsController.getOne);
 router.put('/update', productsController.update);
+router.delete('/remove', productsController.remove);
 
 module.exports = router;

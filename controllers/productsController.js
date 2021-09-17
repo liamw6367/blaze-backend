@@ -72,3 +72,9 @@ exports.update = async (req, res) => {
     })
 }
 
+
+exports.remove = async (req, res) => {
+    let {id} = req.query;
+    await to(Products.destroy({where: {id}}));
+    this.get(req, res);
+}

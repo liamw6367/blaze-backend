@@ -151,6 +151,7 @@ app.use('/auth', require('./routes/auth'));
 app.use('/stores', require('./routes/stores'));
 app.use('/categories', require('./routes/categories'));
 app.use('/products', require('./routes/products'));
+app.use('/banners', require('./routes/banners'));
 
 // Auth Routes
 

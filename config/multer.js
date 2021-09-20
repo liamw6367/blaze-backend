@@ -15,7 +15,7 @@ let storage = multer.diskStorage({
         if (file.fieldname === 'thumbnail_file') {
             dir = await generateFolderPath('category_thumbs', edit, data);
         } else if (file.fieldname === 'banner_file') {
-            dir = await generateFolderPath('category_banners', edit, data);
+            dir = await generateFolderPath('banners', edit, data);
         } else {
             dir = await generateFolderPath(data.folder, edit, data);
         }

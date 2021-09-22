@@ -1,11 +1,15 @@
 const db = require('../models');
 const Banners = db.banners;
 const to = require('../helpers/getPromiseResult');
+const m = require('../config/multer');
 
 exports.add = async (req, res) => {
     let data = req.body;
-    await to(Banners.create(data));
-    this.get(req, res);
+
+    m.uploadImage(req, res, async (err) => {
+        await to(Banners.create(data));
+        this.get(req, res);
+    })
 }
 
 exports.get = async (req, res) => {

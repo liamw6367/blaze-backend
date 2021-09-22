@@ -56,6 +56,7 @@ module.exports = {
     uploadAvatar: upload.single('avatar_file'),
     uploadImage: upload.single('image_file'),
     uploadImages: upload.array('upload_images'),
+    uploadBanner: upload.single('banner_file'),
     uploadBannerThumb: upload.fields([{
         name: 'banner_file', maxCount: 1
     }, {

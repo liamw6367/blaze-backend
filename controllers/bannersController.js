@@ -23,7 +23,9 @@ exports.get = async (req, res) => {
 
 exports.getOne = async (req, res) => {
     const banners = await to(Banners.findOne({
-        id: req.params.id
+        where: {
+            id: req.params.id
+        }
     }));
     res.json(banners);
 }

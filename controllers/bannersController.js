@@ -22,10 +22,10 @@ exports.get = async (req, res) => {
 }
 
 exports.getOne = async (req, res) => {
-    console.log(req.params)
+    console.log(req.query)
     const banners = await to(Banners.findOne({
         where: {
-            id: req.params.id
+            id: req.query.id
         }
     }));
     res.json(banners);

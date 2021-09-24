@@ -32,10 +32,12 @@ exports.getOne = async (req, res) => {
 }
 
 exports.update = async (req, res) => {
-    let {id, ...data} = req.body;
-    console.log(req.body)
-    await to(Banners.update(data, {where: {id}}));
-    res.json('OK');
+    m.uploadImage(req, res, async (err) => {
+        let {id, ...data} = req.body;
+        console.log(req.body)
+        await to(Banners.update(data, {where: {id}}));
+        res.json('OK');
+    })
 }
 
 

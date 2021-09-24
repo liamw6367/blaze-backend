@@ -20,7 +20,7 @@ exports.get = async (req, res) => {
 exports.getOne = async (req, res) => {
     const stores = await to(Stores.findOne({
         where: {
-            id: req.params.id
+            id: req.query.id
         }
     }));
     res.json(stores);

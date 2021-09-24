@@ -22,6 +22,7 @@ exports.get = async (req, res) => {
 }
 
 exports.getOne = async (req, res) => {
+    console.log(req.params)
     const banners = await to(Banners.findOne({
         where: {
             id: req.params.id

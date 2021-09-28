@@ -41,6 +41,7 @@ let upload = multer({
     fileFilter: function (req, file, cb) {
         console.log('file filter!!!!')
         let filetypes = /jpeg|jpg|png|bmp/;
+        console.log(file.mimetype)
         let mimetype = filetypes.test(file.mimetype);
         let extname = filetypes.test(path.extname(file.originalname).toLowerCase());
         if (!mimetype && !extname) {

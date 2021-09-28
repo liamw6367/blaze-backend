@@ -44,6 +44,7 @@ let upload = multer({
         let mimetype = filetypes.test(file.mimetype);
         let extname = filetypes.test(path.extname(file.originalname).toLowerCase());
         if (!mimetype && !extname) {
+            console.log('invalid type!!')
             req.fileTypeError = {msg: "The file has an invalid type"};
             return cb(null, false, req.fileTypeError)
         }

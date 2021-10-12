@@ -102,7 +102,7 @@ exports.register = async (data, email) => {
     // Getting 'not-verified' status to assign it to the user
     let status = await UserStatuses.findOne({where: {name: 'not verified'}});
 
-    await Users.create({...data, ...email, status_id: status.id});
+    await Users.create({...data, ...email});
 
 };
 

@@ -14,6 +14,9 @@ router.post('/verify-code', validateVerificationCode.rules, authController.verif
 router.post('/send-forgot-pass-email', authController.sendForgotPassEmail);
 router.post('/reset-password', validateResetPass.rules, authController.resetPassword);
 router.post('/login', validateLogin.rules, authController.login);
+router.post('/register', validateLogin.rules, authController.register);
+
+
 
 
 // Passport.js Google auth routes

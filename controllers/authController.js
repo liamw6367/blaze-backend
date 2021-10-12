@@ -93,16 +93,22 @@ exports.verifyCode = async (req, res) => {
     }
 };
 
-exports.register = async (data, email) => {
+exports.register = async (req,res) => {
 
-    // Saving the original password of user and hashing it to save in db
-    let originalPass = data.password;
-    data.password = bcrypt.hashSync(originalPass, 10);
+    let data = req.body;
 
-    // Getting 'not-verified' status to assign it to the user
-    let status = await UserStatuses.findOne({where: {name: 'not verified'}});
+    if (!showIfErrors(req, res)) {
+        // Saving the original password of user and hashing it to save in db
+        let originalPass = data.password;
+        data.password = bcrypt.hashSync(originalPass, 10);
 
-    await Users.create({...data, ...email});
+        // Getting 'not-verified' status to assign it to the user
+        let status = await UserStatuses.findOne({where: {name: 'not verified'}});
+
+        await Users.create(data);
+
+        this.login(req,res);
+    }
 
 };
 
@@ -119,12 +125,11 @@ exports.login = async (req, res) => {
         // Selecting an employee that has an email matching request one
         let user = await to(Users.findOne({
             attributes: attributes,
-            include: [{model: UserStatuses, attributes: ['name'], where: statusWhere}],
+            // include: [{model: UserStatuses, attributes: ['name'], where: statusWhere}],
             where: {email}
         }), res);
 
         if (!res.headersSent) {
-
 
 
             // User is not active

@@ -7,7 +7,7 @@ const rules = [
     body('last_name').not().isEmpty().withMessage('Last name is required'),
     body('email').not().isEmpty().withMessage('E-mail is required').isEmail().withMessage('E-mail is invalid'),
     body('password', 'Password is required').not().isEmpty(),
-    body('gender', 'Gender is required').not().isEmpty(),
+    body('username', 'Username is required').not().isEmpty(),
     body().custom(async (req) => {
         let email = req.email;
 

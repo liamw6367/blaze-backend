@@ -4,9 +4,8 @@ module.exports = {
     up: (queryInterface, Sequelize) => {
         return queryInterface.bulkInsert('user_roles', [
             {name: 'admin'},
-            {name: 'partner'},
-            {name: 'employee'},
-            {name: 'customer'}
+            {name: 'customer'},
+            {name: 'driver'}
         ])
     },
 

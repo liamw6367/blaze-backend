@@ -148,6 +148,7 @@ app.use('/test-stores', (req, res) => {
 
 // Non-auth routes
 app.use('/auth', require('./routes/auth'));
+app.use('/users', require('./routes/users'));
 app.use('/stores', require('./routes/stores'));
 app.use('/categories', require('./routes/categories'));
 app.use('/products', require('./routes/products'));

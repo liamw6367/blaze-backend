@@ -1,6 +1,7 @@
 const db = require('../models');
 const Users = db.users;
 const UserStatuses = db.user_statuses;
+const UserRoles = db.user_roles;
 const AccountVerifications = db.account_verifications;
 const ForgotPassTokens = db.forgot_pass_tokens;
 
@@ -126,6 +127,7 @@ exports.login = async (req, res) => {
         let user = await to(Users.findOne({
             attributes: attributes,
             // include: [{model: UserStatuses, attributes: ['name'], where: statusWhere}],
+             include: [{model: UserRoles, attributes: ['name','id']}],
             where: {email}
         }), res);
 

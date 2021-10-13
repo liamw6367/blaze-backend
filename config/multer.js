@@ -7,32 +7,35 @@ const fse = require('fs-extra')
 
 
 let storage = multer.diskStorage({
-    destination: async function (req, file, cb) {
-        const data = req.body;
-        const edit = !!data.id;
-        console.log(file.fieldname)
-        let dir;
-        if (file.fieldname === 'thumbnail_file') {
-            dir = await generateFolderPath('category_thumbs', edit, data);
-        } else if (file.fieldname === 'banner_file') {
-            dir = await generateFolderPath('banners', edit, data);
-        } else {
-            dir = await generateFolderPath(data.folder, edit, data);
+        destination: async function (req, file, cb) {
+            const data = req.body;
+            const edit = !!data.id;
+            console.log(file.fieldname)
+            let dir;
+            if (file.fieldname === 'thumbnail_file') {
+                dir = await generateFolderPath('category_thumbs', edit, data);
+            } else if (file.fieldname === 'banner_file') {
+                dir = await generateFolderPath('banners', edit, data);
+            } else if (file.fieldname === 'avatar_file') {
+                dir = await generateFolderPath('avatars', edit, data);
+            } else {
+                dir = await generateFolderPath(data.folder, edit, data);
+            }
+
+
+            console.log('DIR!!!!!')
+            console.log(dir)
+            console.log('DIR!!!!!')
+
+            await fse.ensureDir(dir);
+
+            cb(null, dir)
+        },
+        filename: async function (req, file, cb) {
+            cb(null, file.originalname)
         }
-
-
-        console.log('DIR!!!!!')
-        console.log(dir)
-        console.log('DIR!!!!!')
-
-        await fse.ensureDir(dir);
-
-        cb(null, dir)
-    },
-    filename: async function (req, file, cb) {
-        cb(null, file.originalname)
-    }
-});
+    })
+;
 
 
 let upload = multer({

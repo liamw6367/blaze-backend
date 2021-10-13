@@ -1,5 +1,6 @@
 const db = require('../models');
 const Categories = db.categories;
+const Products = db.products;
 
 const m = require('../config/multer');
 const to = require('../helpers/getPromiseResult');
@@ -32,6 +33,9 @@ exports.get = async (req, res) => {
         order: [
             ['id', 'DESC']
         ],
+        include: [{
+            model: Products, as: 'products'
+        }],
     }));
     res.json(stores);
 }

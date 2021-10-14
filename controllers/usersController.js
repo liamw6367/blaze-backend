@@ -29,3 +29,11 @@ exports.updateProfile = async (req, res) => {
 
     });
 };
+
+exports.updateDriverDetails = async (req, res) => {
+    let {license, paper, id} = req.body;
+    m.uploadLicensePaper(req, res, async (err) => {
+        await Users.update({license, paper}, {where: {id}});
+        res.json('OK')
+    });
+};

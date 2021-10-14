@@ -18,6 +18,10 @@ let storage = multer.diskStorage({
                 dir = await generateFolderPath('banners', edit, data);
             } else if (file.fieldname === 'avatar_file') {
                 dir = await generateFolderPath('avatars', edit, data);
+            } else if (file.fieldname === 'license_file') {
+                dir = await generateFolderPath('license_files', edit, data);
+            } else if (file.fieldname === 'paper_file') {
+                dir = await generateFolderPath('paper_files', edit, data);
             } else {
                 dir = await generateFolderPath(data.folder, edit, data);
             }

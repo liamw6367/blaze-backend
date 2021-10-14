@@ -3,6 +3,8 @@ const Users = db.users;
 const UserRoles = db.user_roles;
 const m = require('../config/multer');
 
+const jwt = require('jsonwebtoken');
+
 exports.getRoles = async (req, res) => {
     let roles = await UserRoles.findAll({});
     res.json(roles);
@@ -24,8 +26,8 @@ exports.updateProfile = async (req, res) => {
         // data.password = bcrypt.hashSync(newPassword, 10);
         await Users.update(data, {where: {id: id}});
 
-        res.json('OK')
-        // await this.changeJwt({id: id, ...data}, res);
+        // res.json('OK')
+        await this.changeJwt({id: id, ...data}, res);
 
     });
 };
@@ -37,6 +39,35 @@ exports.updateDriverDetails = async (req, res) => {
         console.log('OK!!!!')
         console.log({license, paper}, user_id)
         await Users.update({license, paper}, {where: {id: user_id}});
-        res.json('OK')
+        await this.changeJwt({id: user_id, ...req.body}, res);
+        // res.json('OK')
     });
+};
+
+exports.changeJwt = async (data, res, ret = false) => {
+
+    let user = await Users.findOne({
+        where: {id: data.id}, include: [
+        ]
+    });
+
+
+    let full_name = user[`first_name`] + ' ' + user[`last_name`];
+    let {
+        password,
+        ...details
+    } = user.toJSON();
+    if (res) {
+        res.json({
+            token: jwt.sign(details, 'secretkey', {
+                expiresIn: '8h'
+            }),
+            user_id: user.id,
+            full_name
+        })
+    } else if (ret) {
+        return jwt.sign(details, 'secretkey', {
+            expiresIn: '8h'
+        });
+    }
 };

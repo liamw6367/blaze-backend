@@ -31,9 +31,12 @@ exports.updateProfile = async (req, res) => {
 };
 
 exports.updateDriverDetails = async (req, res) => {
-    let {license, paper, id} = req.body;
+
     m.uploadLicensePaper(req, res, async (err) => {
-        await Users.update({license, paper}, {where: {id}});
+        let {license, paper, user_id} = req.body;
+        console.log('OK!!!!')
+        console.log({license, paper}, user_id)
+        await Users.update({license, paper}, {where: {id: user_id}});
         res.json('OK')
     });
 };

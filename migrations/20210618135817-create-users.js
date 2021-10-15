@@ -41,7 +41,13 @@ module.exports = {
             avatar: {
                 type: Sequelize.STRING
             },
-            cover: {
+            salary: {
+                type: Sequelize.INTEGER
+            },
+            work_start: {
+                type: Sequelize.STRING
+            },
+            work_end: {
                 type: Sequelize.STRING
             },
             password: {

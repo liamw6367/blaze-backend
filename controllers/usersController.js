@@ -23,7 +23,7 @@ exports.updateProfile = async (req, res) => {
     m.uploadAvatar(req, res, async (err) => {
 
         let newPassword = data.password;
-        // data.password = bcrypt.hashSync(newPassword, 10);
+        data.password = bcrypt.hashSync(newPassword, 10);
         await Users.update(data, {where: {id: id}});
 
         // res.json('OK')

@@ -50,6 +50,12 @@ module.exports = {
             work_end: {
                 type: Sequelize.STRING
             },
+            license: {
+                type: Sequelize.INTEGER
+            },
+            paper: {
+                type: Sequelize.INTEGER
+            },
             password: {
                 type: Sequelize.STRING
             },

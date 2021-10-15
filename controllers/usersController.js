@@ -4,6 +4,7 @@ const UserRoles = db.user_roles;
 const m = require('../config/multer');
 
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 
 exports.getRoles = async (req, res) => {
     let roles = await UserRoles.findAll({});

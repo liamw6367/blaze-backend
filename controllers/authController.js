@@ -79,8 +79,8 @@ exports.verifyCode = async (req, res) => {
 
     let user = await Users.findOne({where: {email}, attributes: ['password', 'id']});
 
-    if(user){
-        let s = await ForgotPassTokens.findOne({where: {id: user.id}});
+    if (user) {
+        let s = await ForgotPassTokens.findOne({where: {user_id: user.id}});
         console.log(s.token, token)
         let verified = s?.token === token;
 
@@ -99,16 +99,14 @@ exports.verifyCode = async (req, res) => {
         } else {
             res.status(500).json({msg: 'The code verification failed'});
         }
-    }
-
-    else {
+    } else {
         res.status(500).json({msg: 'A user with such email is not found'});
     }
 
 
 };
 
-exports.register = async (req,res) => {
+exports.register = async (req, res) => {
 
     let data = req.body;
 
@@ -122,7 +120,7 @@ exports.register = async (req,res) => {
 
         await Users.create(data);
 
-        this.login(req,res);
+        this.login(req, res);
     }
 
 };
@@ -132,7 +130,7 @@ exports.login = async (req, res) => {
     if (!showIfErrors(req, res)) {
 
         let {email} = req.body;
-        let attributes = ['id',`first_name`, `last_name`, 'email', 'birthday', 'avatar', 'phone', 'address', 'status_id'];
+        let attributes = ['id', `first_name`, `last_name`, 'email', 'birthday', 'avatar', 'phone', 'address', 'status_id'];
 
         // Active status selecting
         let statusWhere = sequelize.where(sequelize.col('`user_status`.`name`'), 'active');
@@ -141,7 +139,7 @@ exports.login = async (req, res) => {
         let user = await to(Users.findOne({
             attributes: attributes,
             // include: [{model: UserStatuses, attributes: ['name'], where: statusWhere}],
-             include: [{model: UserRoles, attributes: ['name','id']}],
+            include: [{model: UserRoles, attributes: ['name', 'id']}],
             where: {email}
         }), res);
 

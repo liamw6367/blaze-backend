@@ -174,7 +174,7 @@ exports.sendForgotPassEmail = async (req, res) => {
         this.saveForgotPassToken(code, {user_id: user.id});
 
         // e-mail template settings
-        // transporter.use('compile', hbs(c.FORGOT_PASS_EMAIL_HBS_SETTINGS));
+        transporter.use('compile', hbs(c.FORGOT_PASS_EMAIL_HBS_SETTINGS));
 
         // setup email data with unicode symbols
         let mailOptions = generateMailOptions(email, code, 'Reset password',

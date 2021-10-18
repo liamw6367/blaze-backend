@@ -12,7 +12,7 @@ const rules = [
         let email = req.email;
 
         // Retrieving a user with request email
-        let user = await Users.findOne({where: {email: email}});
+        let user = await Users.findOne({where: {email: email}, attributes: ['email']});
 
         if (user != null) throw new Error('E-mail exists');
 

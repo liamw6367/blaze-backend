@@ -39,7 +39,7 @@ exports.sendVerificationCode = async (req, res) => {
                 gender = +(gender === 'female');
 
                 await this.saveToken(jwtToken, {email});
-                this.register(data, {email, gender});
+                // this.register(data, {email, gender});
 
                 // e-mail template settings
                 transporter.use('compile', hbs(c.EMAIL_HBS_SETTINGS));
@@ -76,22 +76,36 @@ exports.saveToken = async (jwtToken, email) => {
 exports.verifyCode = async (req, res) => {
     const {token, email} = req.body;
 
-    let s = await AccountVerifications.findOne({where: {email}});
-    let verified = s?.secret === token;
 
-    if (verified) {
-        let status = await UserStatuses.findOne({where: {name: 'active'}});
+    let user = await Users.findOne({where: {email}, attributes: ['password', 'id']});
 
-        let user = await Users.findOne({where: {email}, attributes: ['password', 'id']});
-        user.isNewRecord = false;
-        user.set({status_id: status.id});
-        await user.save();
-        req.body.password = user.password;
+    if(user){
+        let s = await ForgotPassTokens.findOne({where: {id: user.id}});
+        console.log(s.token, token)
+        let verified = s?.token === token;
 
-        this.login(req, res);
-    } else {
-        res.status(500).json({msg: 'The code verification failed'});
+        if (verified) {
+            //     let status = await UserStatuses.findOne({where: {name: 'active'}});
+
+            // let user = await Users.findOne({where: {email}, attributes: ['password', 'id']});
+            user.isNewRecord = false;
+            // user.set({status_id: status.id});
+            await user.save();
+            req.body.password = user.password;
+
+            res.json('OK')
+
+            // this.login(req, res);
+        } else {
+            res.status(500).json({msg: 'The code verification failed'});
+        }
     }
+
+    else {
+        res.status(500).json({msg: 'A user with such email is not found'});
+    }
+
+
 };
 
 exports.register = async (req,res) => {
@@ -151,18 +165,23 @@ exports.sendForgotPassEmail = async (req, res) => {
     if (!showIfErrors(req, res)) {
 
         let {email} = req.body;
-        let user = await Users.findOne({where: {email}});
+        let user = await Users.findOne({where: {email}, attributes: ['email', 'id']});
         let transporter = nodemailer.createTransport(c.NODEMAILER_TRANSPORT_SETTINGS);
-        let jwtToken = jwt.sign({email}, 'secret', {expiresIn: 1200});
 
-        this.saveForgotPassToken(jwtToken, {user_id: user.id});
+        console.log(c.NODEMAILER_TRANSPORT_SETTINGS)
+
+        // let jwtToken = jwt.sign({email}, 'secret', {expiresIn: 1200});
+        let code = Math.floor(100000 + Math.random() * 900000);
+
+        this.saveForgotPassToken(code, {user_id: user.id});
 
         // e-mail template settings
-        transporter.use('compile', hbs(c.FORGOT_PASS_EMAIL_HBS_SETTINGS));
+        // transporter.use('compile', hbs(c.FORGOT_PASS_EMAIL_HBS_SETTINGS));
 
         // setup email data with unicode symbols
-        let mailOptions = generateMailOptions(email, jwtToken, 'Reset password',
-            'forgot-password', {verificationLink: `${process.env.FRONTEND_URL}/auth/reset-password?email=${email}&token=${jwtToken}`});
+        let mailOptions = generateMailOptions(email, code, 'Reset password',
+            'forgot-password', {code});
+        console.log(mailOptions)
 
         // send mail with defined transport object
         await transporter.sendMail(mailOptions, (error, info) => {
@@ -171,9 +190,11 @@ exports.sendForgotPassEmail = async (req, res) => {
             } else if (info) {
 
                 console.log('Message sent: %s', info.messageId);
-                res.json(jwtToken);
+                res.json(code);
             }
         });
+
+        // res.json(code)
 
     }
 };

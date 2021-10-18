@@ -9,7 +9,7 @@ const u = require('../config/multer');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 
-router.post('/send-verification-code', u.uploadAvatar, validateRegister.rules, authController.sendVerificationCode);
+router.post('/send-verification-code', authController.sendVerificationCode);
 router.post('/verify-code', validateVerificationCode.rules, authController.verifyCode);
 router.post('/send-forgot-pass-email', authController.sendForgotPassEmail);
 router.post('/reset-password', validateResetPass.rules, authController.resetPassword);

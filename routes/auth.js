@@ -34,4 +34,15 @@ router.get('/google/callback', passport.authenticate('google', {
 });
 
 
+// Passport.js Facebook auth routes
+router.get('/facebook', passport.authenticate('facebook', {session: false}));
+router.get('/facebook/callback', passport.authenticate('facebook', {
+    failureRedirect: '/login',
+    scope: ['email', 'openid', 'profile'],
+    session: false
+}), (req, res) => {
+    let token = jwt.sign(req.user, 'secretkey', {expiresIn: '8h'});
+    res.redirect(`${process.env.FRONT_URL}/?token=${token}`);
+});
+
 module.exports = router;

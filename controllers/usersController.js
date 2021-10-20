@@ -23,8 +23,10 @@ exports.updateProfile = async (req, res) => {
 
     m.uploadAvatar(req, res, async (err) => {
 
-        let newPassword = data.password;
-        data.password = bcrypt.hashSync(newPassword, 10);
+        if (data.password) {
+            let newPassword = data.password;
+            data.password = bcrypt.hashSync(newPassword, 10);
+        }
         await Users.update(data, {where: {id: id}});
 
         // res.json('OK')
@@ -48,8 +50,7 @@ exports.updateDriverDetails = async (req, res) => {
 exports.changeJwt = async (data, res, ret = false) => {
 
     let user = await Users.findOne({
-        where: {id: data.id}, include: [
-        ]
+        where: {id: data.id}, include: []
     });
 
 

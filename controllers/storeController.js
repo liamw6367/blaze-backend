@@ -1,9 +1,12 @@
 const db = require('../models');
 const Stores = db.stores;
+const Users = db.users;
+const UserRoles = db.user_roles;
 
 const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 const hbs = require('nodemailer-express-handlebars');
+const bcrypt = require('bcryptjs');
 
 const c = require('../config/constants');
 const m = require('../config/multer');
@@ -15,6 +18,12 @@ exports.add = async (req, res) => {
     let data = req.body;
     if (!showIfErrors(data)) {
         await to(Stores.create(data));
+        let role = await to(UserRoles.findOne({where: {name: 'store admin'}, attributes: ['id']}));
+        await to(Users.create({
+            role_id: role?.id,
+            email: data.store_email_id,
+            password: bcrypt.hashSync(data.password, 10)
+        }));
         this.sendStorePersonInvitationEmail(data);
         this.get(req, res);
     }

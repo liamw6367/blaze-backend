@@ -6,6 +6,7 @@ module.exports = {
     UPLOADS_FOLDER: path.join(__dirname, '../public/uploads'),
     EMAIL_HBS_SETTINGS: generateHbsSettings('verification'),
     FORGOT_PASS_EMAIL_HBS_SETTINGS: generateHbsSettings('forgot-password'),
+    STORE_ADMIN_EMAIL_HBS_SETTINGS: generateHbsSettings('store-admin-details'),
     NODEMAILER_TRANSPORT_SETTINGS: {
         service: process.env.NODEMAILER_SERVICE,
         auth: {

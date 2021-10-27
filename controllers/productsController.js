@@ -28,11 +28,13 @@ exports.get = async (req, res) => {
     const stores = await to(Products.findAll({
         include: [
             {
-                model: Categories, as: 'product_category', attributes: ['id', 'name']
+                model: Categories, as: 'product_category', attributes: ['id', 'name'],
+                through: {  attributes: [] }
             },
             {
                 model: Stores, as: 'product_stores',
-                attributes: ['id', 'name']
+                attributes: ['id', 'name'],
+                through: {  attributes: [] }
             }
         ],
         order: [

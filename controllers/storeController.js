@@ -17,6 +17,7 @@ const to = require('../helpers/getPromiseResult');
 exports.add = async (req, res) => {
     let data = req.body;
     if (!showIfErrors(data)) {
+        console.log(data)
         await to(Stores.create(data));
         let role = await to(UserRoles.findOne({where: {name: 'store admin'}, attributes: ['id']}));
         await to(Users.create({

@@ -11,6 +11,11 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      stores.belongsToMany(models.products, {
+        as: 'products',
+        through: models.products_stores,
+        foreignKey: 'store_id'
+      });
     }
   };
   stores.init({
@@ -31,6 +36,9 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'stores',
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
+    timestamps: false
   });
   return stores;
 };

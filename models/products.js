@@ -14,6 +14,10 @@ module.exports = (sequelize, DataTypes) => {
             products.belongsToMany(models.categories, {
                 as: 'product_category', through: models.product_categories,
                 foreignKey: 'product_id'});
+
+            products.belongsToMany(models.stores, {
+                as: 'product_stores', through: models.products_stores,
+                foreignKey: 'product_id'});
         }
     };
     products.init({
@@ -26,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
         sequelize,
         modelName: 'products',
         createdAt: 'created_at',
-        updatedAt: 'updated_at',
+        updatedAt: 'updated_at'
     });
     return products;
 };

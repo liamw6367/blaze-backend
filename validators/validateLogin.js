@@ -16,7 +16,7 @@ const rules = [
         }
 
         // Checking email existence & passwords match
-        let found = await Users.findOne({attributes: ['email', 'password'], where: {email: email}});
+        let found = await Users.findOne({attributes: ['email', 'password'], where: {email}});
 
 
         // This case is for the users that signed up via social medias, and (accidentally) want to login regularly

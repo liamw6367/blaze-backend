@@ -33,7 +33,7 @@ exports.get = async (req, res) => {
             },
             {
                 model: Stores, as: 'product_stores',
-                attributes: ['id', 'name'],
+                attributes: ['id', 'name', 'contact_number'],
                 through: {  attributes: [] }
             }
         ],

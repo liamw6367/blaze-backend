@@ -26,15 +26,15 @@ exports.updateProfile = async (req, res) => {
     const {id, ...data} = req.body;
 
     m.uploadAvatar(req, res, async (err) => {
-
+console.log(data)
         if (data.password) {
             let newPassword = data.password;
             data.password = bcrypt.hashSync(newPassword, 10);
         }
-        await Users.update(data, {where: {id: id}});
+        await Users.update(data, {where: {id}});
 
         // res.json('OK')
-        await this.changeJwt({id: id, ...data}, res);
+        await this.changeJwt({id, ...data}, res);
 
     });
 };

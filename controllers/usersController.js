@@ -6,6 +6,10 @@ const m = require('../config/multer');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
+const generateCode = require('../helpers/generateRandomCodeWithGivenLength');
+const sendSMS = require('../helpers/sendSMS');
+const to = require('../helpers/getPromiseResult');
+
 exports.getRoles = async (req, res) => {
     let roles = await UserRoles.findAll({});
     res.json(roles);
@@ -72,4 +76,12 @@ exports.changeJwt = async (data, res, ret = false) => {
             expiresIn: '8h'
         });
     }
+};
+
+exports.verifyPhone = async (req, res) => {
+    let {phone} = req.body;
+    console.log(req.body)
+    let code = generateCode(6);
+    await to(sendSMS(code, phone));
+    res.json('OK');
 };

@@ -26,7 +26,7 @@ exports.updateProfile = async (req, res) => {
     const {id, ...data} = req.body;
 
     m.uploadAvatar(req, res, async (err) => {
-console.log(data)
+        console.log(data)
         if (data.password) {
             let newPassword = data.password;
             data.password = bcrypt.hashSync(newPassword, 10);
@@ -63,6 +63,7 @@ exports.changeJwt = async (data, res, ret = false) => {
         password,
         ...details
     } = user.toJSON();
+    console.log(details)
     if (res) {
         res.json({
             token: jwt.sign(details, 'secretkey', {
@@ -79,9 +80,20 @@ exports.changeJwt = async (data, res, ret = false) => {
 };
 
 exports.verifyPhone = async (req, res) => {
-    let {phone} = req.body;
-    console.log(req.body)
-    let code = generateCode(6);
+    let {phone, user_id} = req.body;
+    let code = generateCode(4);
+    await to(Users.update({verification_code: code, verified: 1}, {where: {id: user_id}}));
     await to(sendSMS(code, phone));
     res.json('OK');
+};
+
+exports.activateProfile = async (req, res) => {
+    let {verification_code, user_id} = req.body;
+    let user = await Users.findOne({where: {id:user_id}, attributes: ['verification_code']});
+    console.log(user?.verification_code , verification_code)
+    if (+user?.verification_code === +verification_code) {
+        await this.changeJwt({id: user_id, ...req.body}, res);
+    } else {
+        res.status(500).json('The code is wrong');
+    }
 };

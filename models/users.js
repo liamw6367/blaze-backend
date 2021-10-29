@@ -33,6 +33,8 @@ module.exports = (sequelize, DataTypes) => {
         salary: DataTypes.INTEGER,
         work_end: DataTypes.STRING,
         password: DataTypes.STRING,
+        verification_code: DataTypes.INTEGER,
+        verified: DataTypes.INTEGER
     }, {
         sequelize,
         modelName: 'users',

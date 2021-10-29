@@ -9,7 +9,8 @@ router.get('/get-roles', usersController.getRoles);
 router.get('/get-users-by-role', usersController.getUsersByRole);
 router.put('/update-profile', validateUser.rules, m.uploadAvatar, usersController.updateProfile);
 router.put('/update-driver-details', usersController.updateDriverDetails);
-router.post('/verify-phone', usersController.verifyPhone);
+router.put('/verify-phone', usersController.verifyPhone);
+router.put('/activate-profile', usersController.activateProfile);
 
 
 module.exports = router;

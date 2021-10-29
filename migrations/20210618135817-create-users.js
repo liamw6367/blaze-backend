@@ -59,6 +59,13 @@ module.exports = {
             password: {
                 type: Sequelize.STRING
             },
+            verification_code: {
+                type: Sequelize.INTEGER
+            },
+            verified: {
+                defaultValue: 0,
+                type: Sequelize.INTEGER
+            },
             created_at: {
                 defaultValue: Sequelize.fn('NOW'),
                 allowNull: false,

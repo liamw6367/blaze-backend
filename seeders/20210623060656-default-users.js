@@ -16,6 +16,18 @@ module.exports = {
             },
         }, ['id']);
 
+        const store_admin_role_id = await queryInterface.rawSelect('user_roles', {
+            where: {
+                name: 'store admin'
+            },
+        }, ['id']);
+
+        const driver_role_id = await queryInterface.rawSelect('user_roles', {
+            where: {
+                name: 'driver'
+            },
+        }, ['id']);
+
         return queryInterface.bulkInsert('users', [
             {
                 first_name: 'John',
@@ -26,7 +38,28 @@ module.exports = {
                 password: bcrypt.hashSync('12345678', 10),
                 role_id: admin_role_id,
                 status_id: status_id
-            }
+            },
+            {
+                first_name: 'Jane',
+                last_name: 'Doe',
+                birthday: '1986-03-30',
+                gender: 0,
+                email: 'store@gmail.com',
+                password: bcrypt.hashSync('12345678', 10),
+                role_id: store_admin_role_id,
+                status_id: status_id
+            },
+            {
+                first_name: 'Janine',
+                last_name: 'Doe',
+                birthday: '1986-03-30',
+                gender: 0,
+                email: 'driver@gmail.com',
+                password: bcrypt.hashSync('12345678', 10),
+                role_id: driver_role_id,
+                status_id: status_id
+            },
+
         ]);
     },
 

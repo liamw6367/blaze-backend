@@ -1,0 +1,41 @@
+{
+  "files": {
+    "main.css": "/static/css/main.83004b40.chunk.css",
+    "main.js": "/static/js/main.b2bd6d2c.chunk.js",
+    "main.js.map": "/static/js/main.b2bd6d2c.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.d5755d5a.js",
+    "runtime-main.js.map": "/static/js/runtime-main.d5755d5a.js.map",
+    "static/css/2.bd9b7a6c.chunk.css": "/static/css/2.bd9b7a6c.chunk.css",
+    "static/js/2.50de541b.chunk.js": "/static/js/2.50de541b.chunk.js",
+    "static/js/2.50de541b.chunk.js.map": "/static/js/2.50de541b.chunk.js.map",
+    "static/js/3.4bef9b94.chunk.js": "/static/js/3.4bef9b94.chunk.js",
+    "static/js/3.4bef9b94.chunk.js.map": "/static/js/3.4bef9b94.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/2.bd9b7a6c.chunk.css.map": "/static/css/2.bd9b7a6c.chunk.css.map",
+    "static/css/main.83004b40.chunk.css.map": "/static/css/main.83004b40.chunk.css.map",
+    "static/js/2.50de541b.chunk.js.LICENSE.txt": "/static/js/2.50de541b.chunk.js.LICENSE.txt",
+    "static/media/Error.1e468787.png": "/static/media/Error.1e468787.png",
+    "static/media/cardItem.scss": "/static/media/Muli-SemiBold.dbbd674e.ttf",
+    "static/media/Verify_icon.b85e04d6.svg": "/static/media/Verify_icon.b85e04d6.svg",
+    "static/media/add_image.b2fdeb01.svg": "/static/media/add_image.b2fdeb01.svg",
+    "static/media/cart.21cf1927.svg": "/static/media/cart.21cf1927.svg",
+    "static/media/facebookItem.382b9857.svg": "/static/media/facebookItem.382b9857.svg",
+    "static/media/instagram.84315c22.svg": "/static/media/instagram.84315c22.svg",
+    "static/media/nan_pro.a68bc1ab.png": "/static/media/nan_pro.a68bc1ab.png",
+    "static/media/search.46cad518.svg": "/static/media/search.46cad518.svg",
+    "static/media/search1.52bc82c9.png": "/static/media/search1.52bc82c9.png",
+    "static/media/shopping-cart.bd4b9d26.svg": "/static/media/shopping-cart.bd4b9d26.svg",
+    "static/media/slick-theme.css": "/static/media/slick.c94f7671.ttf",
+    "static/media/twitter.09a253f5.svg": "/static/media/twitter.09a253f5.svg",
+    "static/media/user.c3850b35.svg": "/static/media/user.c3850b35.svg",
+    "static/media/vegetablesPngTransparent.c908924b.png": "/static/media/vegetablesPngTransparent.c908924b.png",
+    "static/media/welcome.11de62db.png": "/static/media/welcome.11de62db.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.d5755d5a.js",
+    "static/css/2.bd9b7a6c.chunk.css",
+    "static/js/2.50de541b.chunk.js",
+    "static/css/main.83004b40.chunk.css",
+    "static/js/main.b2bd6d2c.chunk.js"
+  ]
+}

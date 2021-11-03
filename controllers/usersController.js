@@ -101,6 +101,13 @@ exports.activateProfile = async (req, res) => {
 
 exports.saveDeliveryDetails = async (req, res) => {
     let data = req.body;
+    console.log(data)
     let d = await DeliveryDetails.create(data);
-    res.json(d);
+    let dt = await Users.findOne({
+        where: {id: data.user_id},
+        include: [
+            {model: DeliveryDetails, as: 'delivery_addresses'}
+        ]
+    });
+    res.json(dt);
 };

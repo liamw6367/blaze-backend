@@ -1,6 +1,7 @@
 const db = require('../models');
 const Users = db.users;
 const UserRoles = db.user_roles;
+const DeliveryDetails = db.delivery_details;
 const m = require('../config/multer');
 
 const jwt = require('jsonwebtoken');
@@ -89,11 +90,17 @@ exports.verifyPhone = async (req, res) => {
 
 exports.activateProfile = async (req, res) => {
     let {verification_code, user_id} = req.body;
-    let user = await Users.findOne({where: {id:user_id}, attributes: ['verification_code']});
-    console.log(user?.verification_code , verification_code)
+    let user = await Users.findOne({where: {id: user_id}, attributes: ['verification_code']});
+    console.log(user?.verification_code, verification_code)
     if (+user?.verification_code === +verification_code) {
         await this.changeJwt({id: user_id, ...req.body}, res);
     } else {
         res.status(500).json('The code is wrong');
     }
+};
+
+exports.saveDeliveryDetails = async (req, res) => {
+    let data = req.body;
+    let d = await DeliveryDetails.create(data);
+    res.json(d);
 };

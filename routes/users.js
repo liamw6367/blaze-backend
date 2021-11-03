@@ -11,6 +11,7 @@ router.put('/update-profile', validateUser.rules, m.uploadAvatar, usersControlle
 router.put('/update-driver-details', usersController.updateDriverDetails);
 router.put('/verify-phone', usersController.verifyPhone);
 router.put('/activate-profile', usersController.activateProfile);
+router.put('/save-delivery-details', usersController.saveDeliveryDetails);
 
 
 module.exports = router;

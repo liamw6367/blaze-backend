@@ -55,7 +55,9 @@ exports.updateDriverDetails = async (req, res) => {
 exports.changeJwt = async (data, res, ret = false) => {
 
     let user = await Users.findOne({
-        where: {id: data.id}, include: []
+        where: {id: data.id}, include: [
+            {model: DeliveryDetails, as: 'delivery_addresses'}
+        ]
     });
 
 
@@ -103,11 +105,12 @@ exports.saveDeliveryDetails = async (req, res) => {
     let data = req.body;
     console.log(data)
     let d = await DeliveryDetails.create(data);
-    let dt = await Users.findOne({
-        where: {id: data.user_id},
-        include: [
-            {model: DeliveryDetails, as: 'delivery_addresses'}
-        ]
-    });
-    res.json(dt);
+    // let dt = await Users.findOne({
+    //     where: {id: data.user_id},
+    //     include: [
+    //         {model: DeliveryDetails, as: 'delivery_addresses'}
+    //     ]
+    // });
+    await this.changeJwt({id: data.user_id, ...req.body}, res);
+    // res.json(dt);
 };

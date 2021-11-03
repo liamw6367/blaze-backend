@@ -4,6 +4,7 @@ const UserStatuses = db.user_statuses;
 const UserRoles = db.user_roles;
 const AccountVerifications = db.account_verifications;
 const ForgotPassTokens = db.forgot_pass_tokens;
+const DeliveryDetails = db.delivery_details;
 
 const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
@@ -130,7 +131,7 @@ exports.login = async (req, res) => {
     if (!showIfErrors(req, res)) {
 
         let {email} = req.body;
-        let attributes = ['id', `first_name`, `last_name`, 'email', 'birthday', 'avatar', 'phone', 'address', 'status_id'];
+        let attributes = ['id', `first_name`, `last_name`, 'email', 'birthday', 'avatar', 'phone', 'address', 'status_id', 'verified'];
 
         // Active status selecting
         let statusWhere = sequelize.where(sequelize.col('`user_status`.`name`'), 'active');
@@ -139,7 +140,10 @@ exports.login = async (req, res) => {
         let user = await to(Users.findOne({
             attributes: attributes,
             // include: [{model: UserStatuses, attributes: ['name'], where: statusWhere}],
-            include: [{model: UserRoles, attributes: ['name', 'id']}],
+            include: [
+                {model: UserRoles, attributes: ['name', 'id']},
+                {model: DeliveryDetails, as: 'delivery_addresses'}
+                ],
             where: {email}
         }), res);
 

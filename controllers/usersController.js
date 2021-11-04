@@ -66,7 +66,7 @@ exports.changeJwt = async (data, res, ret = false) => {
         password,
         ...details
     } = user.toJSON();
-    console.log(details)
+    // console.log(details)
     if (res) {
         res.json({
             token: jwt.sign(details, 'secretkey', {
@@ -104,13 +104,24 @@ exports.activateProfile = async (req, res) => {
 exports.saveDeliveryDetails = async (req, res) => {
     let data = req.body;
     console.log(data)
-    let d = await DeliveryDetails.create(data);
+
     // let dt = await Users.findOne({
     //     where: {id: data.user_id},
     //     include: [
     //         {model: DeliveryDetails, as: 'delivery_addresses'}
     //     ]
     // });
+
+    let found = await DeliveryDetails.findOne({where: {user_id: data.user_id}});
+
+    if (!found) {
+        let d = await DeliveryDetails.create(data);
+    }
+    else {
+        await DeliveryDetails.update(data,{where: {user_id: data.user_id}});
+    }
     await this.changeJwt({id: data.user_id, ...req.body}, res);
+
+
     // res.json(dt);
 };

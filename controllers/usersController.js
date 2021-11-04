@@ -56,6 +56,7 @@ exports.changeJwt = async (data, res, ret = false) => {
 
     let user = await Users.findOne({
         where: {id: data.id}, include: [
+            {model: UserRoles, attributes: ['name', 'id']},
             {model: DeliveryDetails, as: 'delivery_addresses'}
         ]
     });

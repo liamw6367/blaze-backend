@@ -18,6 +18,12 @@ module.exports = (sequelize, DataTypes) => {
             products.belongsToMany(models.stores, {
                 as: 'product_stores', through: models.products_stores,
                 foreignKey: 'product_id'});
+
+            products.belongsToMany(models.orders, {
+                as: 'product_orders',
+                through: models.orders_products,
+                foreignKey: 'product_id'
+            });
         }
     };
     products.init({

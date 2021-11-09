@@ -10,6 +10,9 @@ module.exports = {
       },
       product_id: {
         type: Sequelize.INTEGER
+      },
+      order_id: {
+        type: Sequelize.INTEGER
       }
     });
   },

@@ -13,7 +13,10 @@ module.exports = {
       },
       order_id: {
         type: Sequelize.INTEGER
-      }
+      },
+      amount: {
+        type: Sequelize.INTEGER
+      },
     });
   },
   down: async (queryInterface, Sequelize) => {

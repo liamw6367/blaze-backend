@@ -8,23 +8,30 @@ const to = require('../helpers/getPromiseResult');
 const m = require('../config/multer');
 
 exports.add = async (req, res) => {
-    let {products, order_id,amount, ...data} = req.body;
+    let {products, order_id, amount, ...data} = req.body;
 
-    if(order_id){
-        await OrdersProducts.destroy({where:{order_id}});
-        products.map(async (product) => {
+    let result;
+    if (order_id) {
+        await OrdersProducts.destroy({where: {order_id}});
+        result = products.map(async (product) => {
             await OrdersProducts.create({product_id: product.id, order_id: order_id, amount: product.amount})
         });
+    } else {
+        let f = await Orders.findOne({where: {user_id: data.user_id, checked_out: 0}});
+        if (!f) {
+            let newOrder = await Orders.create(data);
+            result = products.map(async (product) => {
+                await OrdersProducts.create({product_id: product.id, order_id: newOrder.id, amount: product.amount})
+            });
+        } else {
+            result = products.map(async (product) => {
+                await OrdersProducts.create({product_id: product.id, order_id: f.id, amount: product.amount})
+            });
+        }
+
     }
 
-    else {
-        let newOrder = await Orders.create(data);
-        products.map(async (product) => {
-            await OrdersProducts.create({product_id: product.id, order_id: newOrder.id, amount: product.amount})
-        });
-    }
-
-
+    await Promise.all(result);
     req.query.checked_out = 0;
     req.query.user_id = data.user_id;
     this.get(req, res);
@@ -32,6 +39,7 @@ exports.add = async (req, res) => {
 
 exports.get = async (req, res) => {
     let {checked_out, user_id} = req.query;
+    console.log(req.query)
 
     let r = await Orders.findAll({
         include: [
@@ -55,4 +63,17 @@ exports.get = async (req, res) => {
     });
 
     res.json(r);
+};
+
+exports.checkOutOrder = async (req, res) => {
+    let {order_id} = req.body;
+    await Orders.update({checked_out: 1}, {where: {id: order_id}});
+    res.json('OK')
+};
+
+exports.cancelOrder = async (req, res) => {
+    let {order_id} = req.query;
+    await Orders.destroy({where: {id: order_id}});
+    await OrdersProducts.destroy({where: {order_id}});
+    res.json('OK')
 };

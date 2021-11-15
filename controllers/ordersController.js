@@ -41,6 +41,12 @@ exports.get = async (req, res) => {
     let {checked_out, user_id} = req.query;
     console.log(req.query)
 
+    let where = {user_id};
+
+    if(checked_out){
+        where.checked_out = checked_out;
+    }
+
     let r = await Orders.findAll({
         include: [
             {
@@ -57,17 +63,15 @@ exports.get = async (req, res) => {
                 ]
             }
         ],
-        where: {
-            checked_out, user_id
-        }
+        where
     });
 
     res.json(r);
 };
 
 exports.checkOutOrder = async (req, res) => {
-    let {order_id} = req.body;
-    await Orders.update({checked_out: 1}, {where: {id: order_id}});
+    let {order_id, total_price} = req.body;
+    await Orders.update({checked_out: 1, total_price}, {where: {id: order_id}});
     res.json('OK')
 };
 

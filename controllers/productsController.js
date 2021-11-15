@@ -29,12 +29,12 @@ exports.get = async (req, res) => {
         include: [
             {
                 model: Categories, as: 'product_category', attributes: ['id', 'name'],
-                through: {  attributes: [] }
+                through: {attributes: []}
             },
             {
                 model: Stores, as: 'product_stores',
                 attributes: ['id', 'name', 'contact_number'],
-                through: {  attributes: [] }
+                through: {attributes: []}
             }
         ],
         order: [
@@ -91,6 +91,11 @@ exports.remove = async (req, res) => {
 
 
 exports.addProductToStore = async (req, res) => {
-    let data = req.body;
-    await ProdStores.create(data);
+    let {order_id, product_ids} = req.body;
+    let result = product_ids.map(async (product_id) => {
+        await ProdStores.create({product_id, order_id});
+    });
+
+    await Promise.all(result);
+    res.json('OK');
 };

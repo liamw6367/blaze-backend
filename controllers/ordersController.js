@@ -7,6 +7,10 @@ const Stores = db.stores;
 const to = require('../helpers/getPromiseResult');
 const m = require('../config/multer');
 
+const sequelize = require('sequelize');
+const moment = require('moment');
+const Op = sequelize.Op;
+
 exports.add = async (req, res) => {
     let {products, order_id, amount, ...data} = req.body;
 
@@ -38,10 +42,17 @@ exports.add = async (req, res) => {
 };
 
 exports.get = async (req, res) => {
-    let {checked_out, user_id} = req.query;
+    let {checked_out, user_id, start_date, end_date} = req.query;
     console.log(req.query)
 
     let where = {user_id};
+
+    where['`created_at`'] = {
+        [Op.between]: [
+            new Date(start_date),
+            new Date(end_date)
+        ]
+    };
 
     if(checked_out){
         where.checked_out = checked_out;

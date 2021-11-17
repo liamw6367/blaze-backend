@@ -47,14 +47,16 @@ exports.get = async (req, res) => {
 
     let where = {user_id};
 
-    where['`created_at`'] = {
-        [Op.between]: [
-            new Date(start_date),
-            new Date(end_date)
-        ]
-    };
+    if (start_date && end_date) {
+        where['`created_at`'] = {
+            [Op.between]: [
+                new Date(start_date),
+                new Date(end_date)
+            ]
+        };
+    }
 
-    if(checked_out){
+    if (checked_out) {
         where.checked_out = checked_out;
     }
 

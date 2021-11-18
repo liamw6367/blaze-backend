@@ -25,6 +25,7 @@ exports.add = async (req, res) => {
 };
 
 exports.get = async (req, res) => {
+    let {store_id} = req.query;
     const stores = await to(Products.findAll({
         include: [
             {
@@ -34,12 +35,16 @@ exports.get = async (req, res) => {
             {
                 model: Stores, as: 'product_stores',
                 attributes: ['id', 'name', 'contact_number'],
-                through: {attributes: []}
+                through: {attributes: []},
+                where: {
+                    id: store_id
+                }
             }
         ],
         order: [
             ['id', 'DESC']
         ],
+
     }));
     res.json(stores);
 };

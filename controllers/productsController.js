@@ -4,6 +4,7 @@ const Categories = db.categories;
 const Stores = db.stores;
 const ProdCategories = db.product_categories;
 const ProdStores = db.products_stores;
+const sequelize = require('sequelize');
 
 const m = require('../config/multer');
 const to = require('../helpers/getPromiseResult');
@@ -27,10 +28,11 @@ exports.add = async (req, res) => {
 exports.get = async (req, res) => {
     let {store_id} = req.query;
     let where = {};
-    if(store_id){
-        where.id = store_id;
+    if (store_id) {
+        where = sequelize.where(sequelize.col('`product_stores`.`id`'), store_id);
     }
     console.log('get products!!!!')
+    console.log(where)
     const stores = await to(Products.findAll({
         include: [
             {
@@ -41,9 +43,9 @@ exports.get = async (req, res) => {
                 model: Stores, as: 'product_stores',
                 attributes: ['id', 'name', 'contact_number'],
                 through: {attributes: []},
-                where
             }
         ],
+        where,
         order: [
             ['id', 'DESC']
         ],

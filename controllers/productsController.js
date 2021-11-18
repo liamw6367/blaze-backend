@@ -30,6 +30,7 @@ exports.get = async (req, res) => {
     if(store_id){
         where.id = store_id;
     }
+    console.log('get products!!!!')
     const stores = await to(Products.findAll({
         include: [
             {

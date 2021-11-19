@@ -101,9 +101,10 @@ exports.remove = async (req, res) => {
 
 
 exports.addProductToStore = async (req, res) => {
-    let {order_id, product_ids} = req.body;
+    let {store_id, product_ids} = req.body;
+    console.log('add product to store!!!')
     let result = product_ids.map(async (product_id) => {
-        await ProdStores.create({product_id, order_id});
+        await ProdStores.create({product_id, store_id});
     });
 
     await Promise.all(result);

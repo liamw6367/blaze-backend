@@ -94,8 +94,19 @@ exports.update = async (req, res) => {
 
 
 exports.remove = async (req, res) => {
-    let {id} = req.query;
-    await to(Products.destroy({where: {id}}));
+    let {id, store_id} = req.body;
+    console.log('remove product!!!!')
+    console.log(store_id)
+    let where = {product_id: id};
+    if (store_id) {
+        where.store_id = store_id;
+        req.query.store_id = store_id;
+        await to(ProdStores.destroy({where}));
+    } else {
+        await to(Products.destroy({where: {id}}));
+
+    }
+
     this.get(req, res);
 };
 
@@ -103,6 +114,7 @@ exports.remove = async (req, res) => {
 exports.addProductToStore = async (req, res) => {
     let {store_id, product_ids} = req.body;
     console.log('add product to store!!!')
+    await ProdStores.destroy({where: {store_id}});
     let result = product_ids.map(async (product_id) => {
         await ProdStores.create({product_id, store_id});
     });

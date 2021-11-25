@@ -94,7 +94,7 @@ exports.update = async (req, res) => {
 
 
 exports.remove = async (req, res) => {
-    let {id, store_id} = req.body;
+    let {id, store_id} = req.query;
     console.log('remove product!!!!')
     console.log(store_id)
     let where = {product_id: id};

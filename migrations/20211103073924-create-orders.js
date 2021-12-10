@@ -11,6 +11,9 @@ module.exports = {
       user_id: {
         type: Sequelize.INTEGER
       },
+      store_id: {
+        type: Sequelize.INTEGER
+      },
       checked_out: {
         type: Sequelize.INTEGER
       },

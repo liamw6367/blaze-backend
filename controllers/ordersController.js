@@ -1,5 +1,6 @@
 const db = require('../models');
 const Orders = db.orders;
+const Users = db.users;
 const Products = db.products;
 const OrdersProducts = db.orders_products;
 const Categories = db.categories;
@@ -45,7 +46,11 @@ exports.get = async (req, res) => {
     let {checked_out, user_id, start_date, end_date} = req.query;
     console.log(req.query)
 
-    let where = {user_id};
+    let where = {};
+
+    if (user_id) {
+        where['user_id'] = user_id;
+    }
 
     if (start_date && end_date) {
         where['`created_at`'] = {
@@ -59,6 +64,9 @@ exports.get = async (req, res) => {
     if (checked_out) {
         where.checked_out = checked_out;
     }
+
+
+    console.log('where', where)
 
     let r = await Orders.findAll({
         include: [
@@ -74,7 +82,8 @@ exports.get = async (req, res) => {
                         through: {attributes: []}
                     }
                 ]
-            }
+            },
+            {model: Users, attributes: ['id', 'email', 'first_name', 'last_name']}
         ],
         where
     });

@@ -17,10 +17,14 @@ module.exports = (sequelize, DataTypes) => {
         through: models.orders_products,
         foreignKey: 'order_id'
       });
+
+
+      orders.belongsTo(models.users, {foreignKey: 'user_id'});
     }
   };
   orders.init({
     user_id: DataTypes.INTEGER,
+    store_id: DataTypes.INTEGER,
     checked_out: DataTypes.INTEGER,
     total_price: DataTypes.INTEGER
   }, {

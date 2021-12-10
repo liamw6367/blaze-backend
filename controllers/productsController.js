@@ -57,9 +57,16 @@ exports.get = async (req, res) => {
 
 exports.getOne = async (req, res) => {
     const stores = await to(Products.findOne({
-        include: [{
-            model: Categories, as: 'product_category'
-        }],
+        include: [
+            {
+                model: Categories, as: 'product_category'
+            },
+            {
+                model: Stores, as: 'product_stores',
+                attributes: ['id', 'name', 'contact_number'],
+                through: {attributes: []},
+            }
+        ],
         where: {
             id: req.query.id
         },

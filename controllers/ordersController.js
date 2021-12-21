@@ -21,6 +21,7 @@ exports.add = async (req, res) => {
         result = products.map(async (product) => {
             await OrdersProducts.create({product_id: product.id, order_id: order_id, amount: product.amount})
         });
+        req.query.order_id = order_id;
     } else {
         let f = await Orders.findOne({where: {user_id: data.user_id, checked_out: 0}});
         if (!f) {
@@ -28,6 +29,7 @@ exports.add = async (req, res) => {
             result = products.map(async (product) => {
                 await OrdersProducts.create({product_id: product.id, order_id: newOrder.id, amount: product.amount})
             });
+            req.query.order_id = newOrder.id;
         } else {
             result = products.map(async (product) => {
                 await OrdersProducts.create({product_id: product.id, order_id: f.id, amount: product.amount})
@@ -39,17 +41,22 @@ exports.add = async (req, res) => {
     await Promise.all(result);
     req.query.checked_out = 0;
     req.query.user_id = data.user_id;
+
     this.get(req, res);
 };
 
 exports.get = async (req, res) => {
-    let {checked_out, user_id, start_date, end_date} = req.query;
+    let {checked_out, user_id, order_id, start_date, end_date} = req.query;
     console.log(req.query)
 
     let where = {};
 
     if (user_id) {
         where['user_id'] = user_id;
+    }
+
+    if (order_id) {
+        where['id'] = order_id;
     }
 
     if (start_date && end_date) {

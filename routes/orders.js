@@ -8,5 +8,6 @@ router.put('/check-out', ordersController.checkOutOrder);
 router.get('/get', ordersController.get);
 // router.get('/get-one', ordersController.getOne);
 router.delete('/cancel', ordersController.cancelOrder);
+router.delete('/remove-product-from-order', ordersController.removeProductFromOrder);
 
 module.exports = router;

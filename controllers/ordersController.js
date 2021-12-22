@@ -110,3 +110,11 @@ exports.cancelOrder = async (req, res) => {
     await OrdersProducts.destroy({where: {order_id}});
     res.json('OK')
 };
+
+exports.removeProductFromOrder = async (req, res) => {
+    let {product_id, order_id} = req.query;
+    await OrdersProducts.destroy({
+        where: {product_id, order_id}
+    });
+    this.get(req,res);
+};

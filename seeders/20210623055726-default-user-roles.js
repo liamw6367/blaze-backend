@@ -6,7 +6,8 @@ module.exports = {
             {name: 'admin'},
             {name: 'store admin'},
             {name: 'customer'},
-            {name: 'driver'}
+            {name: 'driver'},
+            {name: 'operator'}
         ])
     },
 

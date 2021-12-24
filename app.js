@@ -10,6 +10,7 @@ const cors = require('cors');
 const path = require('path');
 const cs = require('./config/constants');
 const postMaxSize = 50;
+const cron = require('node-cron');
 
 console.log(`Your port is ${port}`);
 
@@ -30,121 +31,14 @@ app.use('/test', function (req, res, next) {
     res.send('API is working properly');
 });
 
-app.use('/test-stores', (req, res) => {
-    let data = [{
-        name: "All",
-        area: "Some",
-        latitude: "19.546545454545465465612",
-        longitude: "72.546545454545465465612",
-        deliveryRadius: "2",
-        storeTiming: "8am",
-        contactPersonName: "Aziz Tinwala",
-        contactNumber: "+12345678912778",
-        blazePersonName: "Aziz Tinwala",
-        blazePersonNumber: "",
-        address: "Vasai East",
-        storeEmailId: "all@all.com",
-        password: "123456",
-        isActive: true,
-    },
-        {
-            name: "Funny Store",
-            area: "Some",
-            latitude: "19.546545454545465465612",
-            longitude: "72.546545454545465465612",
-            deliveryRadius: "2",
-            storeTiming: "8am",
-            contactPersonName: "Aziz Tinwala",
-            contactNumber: "+12345678912778",
-            blazePersonName: "Aziz Tinwala",
-            blazePersonNumber: "",
-            address: "Vasai East",
-            storeEmailId: "example@example.com",
-            password: "123456",
-            isActive: true,
-        },
-        {
-            name: "Cornucopia",
-            area: "Place",
-            latitude: "19.546545454545465465612",
-            longitude: "72.546545454545465465612",
-            deliveryRadius: "2",
-            storeTiming: "8am",
-            contactPersonName: "Aziz Tinwala",
-            contactNumber: "+12345555444312",
-            blazePersonName: "Aziz Tinwala",
-            blazePersonNumber: "",
-            address: "Vasai East",
-            storeEmailId: "test@test.com",
-            password: "123456",
-            isActive: true,
-        },
-        {
-            name: "The Corner Store",
-            area: "Bandra",
-            latitude: "19.546545454545465465612",
-            longitude: "72.546545454545465465612",
-            deliveryRadius: "2",
-            storeTiming: "8am",
-            contactPersonName: "Aziz Tinwala",
-            contactNumber: "+12366500893123",
-            blazePersonName: "Aziz Tinwala",
-            blazePersonNumber: "",
-            address: "Vasai East",
-            storeEmailId: "instance@instance.com",
-            password: "123456",
-            isActive: false,
-        },
-        {
-            name: "Drinks",
-            area: "Something",
-            latitude: "19.546545454545465465612",
-            longitude: "72.546545454545465465612",
-            deliveryRadius: "2",
-            storeTiming: "8am",
-            contactPersonName: "Aziz Tinwala",
-            contactNumber: "+12345678912778",
-            blazePersonName: "Aziz Tinwala",
-            blazePersonNumber: "",
-            address: "Vasai East",
-            storeEmailId: "ample@ample.com",
-            password: "123456",
-            isActive: false,
-        },
-        {
-            name: "The best shop",
-            area: "any place",
-            latitude: "19.546545454545465465612",
-            longitude: "72.546545454545465465612",
-            deliveryRadius: "2",
-            storeTiming: "8am",
-            contactPersonName: "Aziz Tinwala",
-            contactNumber: "+12345555444312",
-            blazePersonName: "Aziz Tinwala",
-            blazePersonNumber: "",
-            address: "Vasai East",
-            storeEmailId: "task@task.com",
-            password: "123456",
-            isActive: true,
-        },
-        {
-            name: "The Circle Store",
-            area: "Bandra",
-            latitude: "19.546545454545465465612",
-            longitude: "72.546545454545465465612",
-            deliveryRadius: "2",
-            storeTiming: "8am",
-            contactPersonName: "Aziz Tinwala",
-            contactNumber: "+12366500893123",
-            blazePersonName: "Aziz Tinwala",
-            blazePersonNumber: "",
-            address: "Vasai East",
-            storeEmailId: "inst@inst.com",
-            password: "123456",
-            isActive: true,
-        }];
-    res.send(data)
-})
+// Socket io
+const io = require('socket.io')(server, {
+    cors: {
+        origin: '*'
+    }
+});
+const {socket, getMessagesFromRedis} = require('./helpers/socket');
+socket(io);
 
 // Non-auth routes
 app.use('/auth', require('./routes/auth'));
@@ -154,6 +48,7 @@ app.use('/categories', require('./routes/categories'));
 app.use('/products', require('./routes/products'));
 app.use('/banners', require('./routes/banners'));
 app.use('/orders', require('./routes/orders'));
+app.use('/chat', require('./routes/chat'));
 
 // Auth Routes
 
@@ -182,3 +77,12 @@ app.get('*', (req, res, next) => {
 // require('./config/google-passport-strategy')(passport);
 // require('./config/facebook-passport-strategy')(passport);
 // app.use(passport.initialize({}));
+
+
+//Cron job for chat messages
+cron.schedule('00 19 * * *', async() => {
+    // console.log('running a task every minute');
+    let messages = await getMessagesFromRedis();
+    const supportChatController = require('./controllers/supportChatController');
+    await supportChatController.saveRedisMessages(messages);
+});

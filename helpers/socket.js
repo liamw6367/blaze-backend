@@ -81,7 +81,7 @@ console.log(t)
                 result+=' '+tt.join(' ')
             })
 
-console.log(result)
+console.log(newRecord)
             redisClient.hSet('chat:messages:5', JSON.stringify(newRecord));
 //             redisClient.set(`messages`, JSON.stringify(messagesArr));
             // redisClient.rPush('messages', `${data.from_id}&${data.message}&${data.to_id}&${moment().format()}`);

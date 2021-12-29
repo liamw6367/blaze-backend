@@ -10,7 +10,7 @@ const DEFAULT_EXPIRATION_TIME = 3600;
 
 let users = [];
 
-getMessagesFromRedis = async (query = 'ft.search chat_idx *') => {
+getMessagesFromRedis = async (query = 'chat_idx *') => {
     // let messages = [];
     // let messagesFromRedis = await redisClient.lRange('messages', 0, -1);
     // messagesFromRedis.map(message => {

@@ -80,7 +80,7 @@ app.get('*', (req, res, next) => {
 
 
 //Cron job for chat messages
-cron.schedule('00 19 * * *', async() => {
+cron.schedule('00 18 * * *', async() => {
     // console.log('running a task every minute');
     let messages = await getMessagesFromRedis();
     const supportChatController = require('./controllers/supportChatController');

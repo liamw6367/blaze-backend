@@ -69,10 +69,20 @@ socket = (io) => {
             let messagesArr = await getMessagesFromRedis();
 
 
+
+
             messagesArr.push({...data, created_at: moment().format()});
+console.log(data)
             let newRecord = {...data, created_at: moment().format()}
-            console.log(newRecord, {...Object.entries(newRecord)})
-            redisClient.hSet('chat:messages:5', ...Object.entries(newRecord));
+
+            let t = Object.entries(newRecord);
+            let result = '';
+            t.map(tt => {
+                result+=' '+tt.join(' ')
+            })
+
+
+            redisClient.hSet('chat:messages:5', result);
 //             redisClient.set(`messages`, JSON.stringify(messagesArr));
             // redisClient.rPush('messages', `${data.from_id}&${data.message}&${data.to_id}&${moment().format()}`);
             // redisClient.expire('messages','10');

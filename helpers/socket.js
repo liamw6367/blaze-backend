@@ -10,7 +10,7 @@ const DEFAULT_EXPIRATION_TIME = 3600;
 
 let users = [];
 
-getMessagesFromRedis = async () => {
+getMessagesFromRedis = async (query = 'ft.search chat_idx *') => {
     // let messages = [];
     // let messagesFromRedis = await redisClient.lRange('messages', 0, -1);
     // messagesFromRedis.map(message => {
@@ -23,23 +23,28 @@ getMessagesFromRedis = async () => {
     //     })
     // });
 
-    await redisClient.ft.create('idx:chat',{
-        from_id: {
-            type: SchemaFieldTypes.NUMERIC,
-            sortable: true
-        },
-        to_id: {
-            type: SchemaFieldTypes.NUMERIC,
-            sortable: true
-        },
-    }, {
-        ON: 'HASH',
-        PREFIX: 'chat:messages'
-    });
+    // await redisClient.ft.create('idx:chat',{
+    //     //     from_id: {
+    //     //         type: SchemaFieldTypes.NUMERIC,
+    //     //         sortable: true
+    //     //     },
+    //     //     to_id: {
+    //     //         type: SchemaFieldTypes.NUMERIC,
+    //     //         sortable: true
+    //     //     },
+    //     // }, {
+    //     //     ON: 'HASH',
+    //     //     PREFIX: 'chat:messages'
+    //     // });
+    //     //
+    //     //
+    //     // let messages = await redisClient.get('messages');
+    //     // return JSON.parse(messages) || [];
 
 
-    let messages = await redisClient.get('messages');
+    let messages = await redisClient.ft.search('chat_idx', query);
     return JSON.parse(messages) || [];
+
 };
 
 removeTodaysMessages = async () => {

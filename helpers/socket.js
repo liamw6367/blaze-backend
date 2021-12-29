@@ -43,6 +43,7 @@ getMessagesFromRedis = async (query = 'chat_idx *') => {
 
 
     let messages = await redisClient.ft.search('chat_idx', query);
+    console.log(messages)
     return JSON.parse(messages) || [];
 
 };

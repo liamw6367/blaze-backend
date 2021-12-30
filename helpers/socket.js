@@ -83,8 +83,8 @@ socket = (io) => {
 
             // console.log(JSON.parse(messages))
 
-            let redisQuery = `(@from_id:[${data.from_id} ${data.from_id}] @to_id:[${data.to_id} ${data.to_id}])|(@from_id:[${data.to_id} ${data.to_id}] @to_id:[${data.from_id} ${data.from_id}])`;
-            messagesArr = await getMessagesFromRedis(redisQuery);
+            // let redisQuery = `(@from_id:[${data.from_id} ${data.from_id}] @to_id:[${data.to_id} ${data.to_id}])|(@from_id:[${data.to_id} ${data.to_id}] @to_id:[${data.from_id} ${data.from_id}])`;
+            messagesArr = await getMessagesFromRedis();
             io.emit('getMessages', messagesArr);
         })
     })

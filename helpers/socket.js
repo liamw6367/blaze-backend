@@ -43,7 +43,7 @@ getMessagesFromRedis = async (query = '*') => {
 
 
     let messages = await redisClient.ft.search('chat_idx', query);
-    console.log(messages)
+    // console.log(messages)
     return messages?.documents || [];
 
 };
@@ -56,9 +56,10 @@ removeTodaysMessages = async () => {
 socket = (io) => {
     io.on('connection', async (socket) => {
         if (!redisClient.isOpen) {
+            console.log('redis connection!!!')
             await redisClient.connect();
         }
-        console.log('new connection made');
+        // console.log('new connection made');
 
         socket.on('newUser', async (user) => {
             let username = user.username;
@@ -69,20 +70,12 @@ socket = (io) => {
             let messagesArr = await getMessagesFromRedis();
 
 
-
-
             // messagesArr.push({...data, created_at: moment().format()});
             let newRecord = {...data, created_at: moment().format()}
+            let key = `chat:messages:${messagesArr.length + 1}`;
+            console.log(newRecord, key)
+            let t = await redisClient.hSet(key, newRecord);
 
-            let t = Object.entries(newRecord);
-console.log(t)
-            let result = '';
-            t.map(tt => {
-                result+=' '+tt.join(' ')
-            })
-
-console.log(JSON.stringify(newRecord))
-            redisClient.hSet('chat:messages:5', JSON.stringify(newRecord));
 //             redisClient.set(`messages`, JSON.stringify(messagesArr));
             // redisClient.rPush('messages', `${data.from_id}&${data.message}&${data.to_id}&${moment().format()}`);
             // redisClient.expire('messages','10');

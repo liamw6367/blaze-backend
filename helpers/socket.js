@@ -41,10 +41,10 @@ getMessagesFromRedis = async (query = '*') => {
     //     // let messages = await redisClient.get('messages');
     //     // return JSON.parse(messages) || [];
 
+    let messages = await redisClient.ft.search('chat_idx', query, {LIMIT: {from: 0, size: 1000}, SORTBY: {BY: 'created_at', DIRECTION: 'ASC'}});
 
-    let messages = await redisClient.ft.search('chat_idx', query);
     // console.log(messages?.documents.map(d=> d.value));
-    return messages?.documents.map(d=> d.value) || [];
+    return messages?.documents.map(d => d.value) || [];
 
 
 };
@@ -68,31 +68,35 @@ socket = (io) => {
         });
 
         socket.on('sendMessage', async (data) => {
-            let messagesArr = await getMessagesFromRedis();
+            let messagesArr = await getMessagesFromRedis(generateFtSearchQuery(data));
 
 
             // messagesArr.push({...data, created_at: moment().format()});
             let newRecord = {...data, created_at: moment().format()}
             let key = `chat:messages:${messagesArr.length + 1}`;
-            console.log(newRecord, key)
-            let t = await redisClient.hSet(key, newRecord);
+            await redisClient.hSet(key, newRecord);
 
-//             redisClient.set(`messages`, JSON.stringify(messagesArr));
-            // redisClient.rPush('messages', `${data.from_id}&${data.message}&${data.to_id}&${moment().format()}`);
-            // redisClient.expire('messages','10');
-            // messages = await eval(redis Client.get('messages'));
-
-            // console.log(JSON.parse(messages))
-
-            // let redisQuery = `(@from_id:[${data.from_id} ${data.from_id}] @to_id:[${data.to_id} ${data.to_id}])|(@from_id:[${data.to_id} ${data.to_id}] @to_id:[${data.from_id} ${data.from_id}])`;
-            messagesArr = await getMessagesFromRedis();
+            messagesArr = await getMessagesFromRedis(generateFtSearchQuery(data));
             io.emit('getMessages', messagesArr);
         })
     })
 };
 
+generateFtSearchQuery = ({from_id, to_id}) => {
+    let redisQuery = '*';
+    if (from_id) {
+        redisQuery = `@from_id:[${from_id} ${from_id}]|@to_id:[${from_id} ${from_id}]`;
+        if (to_id) {
+            redisQuery = `(@from_id:[${from_id} ${from_id}] @to_id:[${to_id} ${to_id}])|(@from_id:[${to_id} ${to_id}] @to_id:[${from_id} ${from_id}])`;
+        }
+    }
+
+    return redisQuery;
+};
+
 module.exports = {
     getMessagesFromRedis,
+    generateFtSearchQuery,
     removeTodaysMessages,
     socket
 };

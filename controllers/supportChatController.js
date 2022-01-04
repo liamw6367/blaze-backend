@@ -2,7 +2,7 @@ const db = require('../models');
 const Users = db.users;
 const SupportChatMessages = db.support_chat_messages;
 
-let {getMessagesFromRedis, generateFtSearchQuery, removeTodaysMessages} = require('../helpers/socket');
+let {getMessagesFromRedis, generateFtSearchQuery, removeTodaysMessages, groupMessages} = require('../helpers/socket');
 
 
 exports.getMessages = async (req, res) => {
@@ -11,8 +11,10 @@ exports.getMessages = async (req, res) => {
     if (messages.length === 0) {
         messages = await SupportChatMessages.findAll({});
     }
-    res.json(messages);
+
+    res.json(groupMessages(messages));
 };
+
 
 exports.saveRedisMessages = async (messages) => {
     console.log('REDIS MESSAGES', messages)

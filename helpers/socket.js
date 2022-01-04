@@ -94,9 +94,28 @@ generateFtSearchQuery = ({from_id, to_id}) => {
     return redisQuery;
 };
 
+groupMessages = (collection, property = 'created_at' ) => {
+    const groupedCollection = collection.reduce((previous, current) => {
+        let key = current[property];
+        if (property === 'created_at') {
+            key = moment(current[property]).format('dddd, MMMM Do');
+        }
+        if (!previous[key]) {
+            previous[key] = [current];
+        } else {
+            previous[key].push(current);
+        }
+
+        return previous;
+    }, {});
+
+    return Object.keys(groupedCollection).map(key => ({key, value: groupedCollection[key]}));
+}
+
 module.exports = {
     getMessagesFromRedis,
     generateFtSearchQuery,
     removeTodaysMessages,
+    groupMessages,
     socket
 };

@@ -17,10 +17,16 @@ exports.getRoles = async (req, res) => {
 };
 
 exports.getUsersByRole = async (req, res) => {
-    let {role_id} = req.query;
-    let where = role_id ? {role_id} : {};
-    let users = await Users.findAll({where});
-    res.json(users);
+    let {role} = req.query;
+    let roleObj = await UserRoles.findOne({where: {name: role}});
+    if (roleObj) {
+        let role_id = roleObj.id;
+        let where = role_id ? {role_id} : {};
+        let users = await Users.findAll({where});
+        res.json(users);
+    } else {
+        res.json([]);
+    }
 };
 
 exports.updateProfile = async (req, res) => {
@@ -117,9 +123,8 @@ exports.saveDeliveryDetails = async (req, res) => {
 
     if (!found) {
         let d = await DeliveryDetails.create(data);
-    }
-    else {
-        await DeliveryDetails.update(data,{where: {user_id: data.user_id}});
+    } else {
+        await DeliveryDetails.update(data, {where: {user_id: data.user_id}});
     }
     await this.changeJwt({id: data.user_id, ...req.body}, res);
 

@@ -70,13 +70,13 @@ socket = (io) => {
         socket.on('sendMessage', async (data) => {
             let messagesArr = await getMessagesFromRedis(generateFtSearchQuery(data));
 
-
             // messagesArr.push({...data, created_at: moment().format()});
             let newRecord = {...data, created_at: moment().format()}
             let key = `chat:messages:${messagesArr.length + 1}`;
             await redisClient.hSet(key, newRecord);
 
             messagesArr = await getMessagesFromRedis(generateFtSearchQuery(data));
+            messagesArr  = data.role === 'operator' ? groupMessages(messagesArr): messagesArr;
             io.emit('getMessages', messagesArr);
         })
     })
@@ -110,7 +110,7 @@ groupMessages = (collection, property = 'created_at' ) => {
     }, {});
 
     return Object.keys(groupedCollection).map(key => ({key, value: groupedCollection[key]}));
-}
+};
 
 module.exports = {
     getMessagesFromRedis,

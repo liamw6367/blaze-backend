@@ -27,7 +27,7 @@ exports.getUsersByRole = async (req, res) => {
             res.json(users);
         }
     } else {
-        let users = await Users.findAll({});
+        let users = await Users.findAll({where, attributes: ['first_name','last_name','avatar','phone']});
         res.json(users);
     }
 };

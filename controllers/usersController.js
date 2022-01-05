@@ -18,14 +18,17 @@ exports.getRoles = async (req, res) => {
 
 exports.getUsersByRole = async (req, res) => {
     let {role} = req.query;
-    let roleObj = await UserRoles.findOne({where: {name: role}});
-    if (roleObj) {
-        let role_id = roleObj.id;
-        let where = role_id ? {role_id} : {};
-        let users = await Users.findAll({where});
-        res.json(users);
+    if (role) {
+        let roleObj = await UserRoles.findOne({where: {name: role}});
+        if (roleObj) {
+            let role_id = roleObj.id;
+            let where = role_id ? {role_id} : {};
+            let users = await Users.findAll({where, attributes: ['first_name','last_name','avatar']});
+            res.json(users);
+        }
     } else {
-        res.json([]);
+        let users = await Users.findAll({});
+        res.json(users);
     }
 };
 

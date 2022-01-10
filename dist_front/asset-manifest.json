@@ -1,26 +1,26 @@
 {
   "files": {
     "main.css": "/static/css/main.01841b34.chunk.css",
-    "main.js": "/static/js/main.b9aebb7b.chunk.js",
-    "main.js.map": "/static/js/main.b9aebb7b.chunk.js.map",
+    "main.js": "/static/js/main.dc9cbe8e.chunk.js",
+    "main.js.map": "/static/js/main.dc9cbe8e.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.d792b034.js",
     "runtime-main.js.map": "/static/js/runtime-main.d792b034.js.map",
     "static/css/2.bd9b7a6c.chunk.css": "/static/css/2.bd9b7a6c.chunk.css",
-    "static/js/2.0746486d.chunk.js": "/static/js/2.0746486d.chunk.js",
-    "static/js/2.0746486d.chunk.js.map": "/static/js/2.0746486d.chunk.js.map",
+    "static/js/2.567e6acd.chunk.js": "/static/js/2.567e6acd.chunk.js",
+    "static/js/2.567e6acd.chunk.js.map": "/static/js/2.567e6acd.chunk.js.map",
     "static/js/3.f361cdb2.chunk.js": "/static/js/3.f361cdb2.chunk.js",
     "static/js/3.f361cdb2.chunk.js.map": "/static/js/3.f361cdb2.chunk.js.map",
     "index.html": "/index.html",
     "static/css/2.bd9b7a6c.chunk.css.map": "/static/css/2.bd9b7a6c.chunk.css.map",
     "static/css/main.01841b34.chunk.css.map": "/static/css/main.01841b34.chunk.css.map",
-    "static/js/2.0746486d.chunk.js.LICENSE.txt": "/static/js/2.0746486d.chunk.js.LICENSE.txt",
+    "static/js/2.567e6acd.chunk.js.LICENSE.txt": "/static/js/2.567e6acd.chunk.js.LICENSE.txt",
     "static/media/Error.1e468787.png": "/static/media/Error.1e468787.png",
     "static/media/chatt.scss": "/static/media/Group5965.f8e64548.svg",
     "static/media/cardItem.scss": "/static/media/Muli-SemiBold.dbbd674e.ttf",
     "static/media/Verify_icon.b85e04d6.svg": "/static/media/Verify_icon.b85e04d6.svg",
     "static/media/add_image.b2fdeb01.svg": "/static/media/add_image.b2fdeb01.svg",
     "static/media/cart.21cf1927.svg": "/static/media/cart.21cf1927.svg",
-    "static/media/chat_avatar.00b76f39.svg": "/static/media/chat_avatar.00b76f39.svg",
+    "static/media/chat_avatar.e69a18fd.svg": "/static/media/chat_avatar.e69a18fd.svg",
     "static/media/facebookItem.382b9857.svg": "/static/media/facebookItem.382b9857.svg",
     "static/media/instagram.84315c22.svg": "/static/media/instagram.84315c22.svg",
     "static/media/nan_pro.a68bc1ab.png": "/static/media/nan_pro.a68bc1ab.png",
@@ -37,8 +37,8 @@
   "entrypoints": [
     "static/js/runtime-main.d792b034.js",
     "static/css/2.bd9b7a6c.chunk.css",
-    "static/js/2.0746486d.chunk.js",
+    "static/js/2.567e6acd.chunk.js",
     "static/css/main.01841b34.chunk.css",
-    "static/js/main.b9aebb7b.chunk.js"
+    "static/js/main.dc9cbe8e.chunk.js"
   ]
 }

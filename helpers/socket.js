@@ -76,7 +76,7 @@ socket = (io) => {
             await redisClient.hSet(key, newRecord);
 
             messagesArr = await getMessagesFromRedis(generateFtSearchQuery(data));
-            messagesArr  = data.role === 'operator' ? groupMessages(messagesArr): messagesArr;
+            messagesArr  = data.role === 'admin' ? groupMessages(messagesArr): messagesArr;
             io.emit('getMessages', messagesArr);
         })
     })

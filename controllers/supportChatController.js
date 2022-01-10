@@ -12,7 +12,7 @@ exports.getMessages = async (req, res) => {
         messages = await SupportChatMessages.findAll({});
     }
 
-    res.json(data.role === 'operator' ? groupMessages(messages): messages);
+    res.json(data.role === 'admin' ? groupMessages(messages): messages);
 };
 
 

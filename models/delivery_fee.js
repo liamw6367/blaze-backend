@@ -19,7 +19,8 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'delivery_fee',
     createdAt: 'created_at',
-    updatedAt: 'updated_at'
+    updatedAt: 'updated_at',
+    freezeTableName: true,
   });
   return delivery_fee;
 };

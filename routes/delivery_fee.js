@@ -6,7 +6,7 @@ const validateUser = require('../validators/validateUser');
 
 
 router.get('/get', deliveryFeeController.get);
-router.put('/update', deliveryFeeController.get);
+router.put('/update', deliveryFeeController.update);
 
 
 module.exports = router;

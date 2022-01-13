@@ -48,6 +48,7 @@ app.use('/categories', require('./routes/categories'));
 app.use('/products', require('./routes/products'));
 app.use('/banners', require('./routes/banners'));
 app.use('/orders', require('./routes/orders'));
+app.use('/delivery_fee', require('./routes/delivery_fee'));
 app.use('/chat', require('./routes/chat'));
 
 // Auth Routes

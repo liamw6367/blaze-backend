@@ -2,7 +2,7 @@ const db = require('../models');
 const DeliveryFee = db.delivery_fee;
 
 exports.get = async (req, res) => {
-    let d = await DeliveryFee.findOne({});
+    let d = await db.delivery_fee.findOne({});
     return d;
 };
 

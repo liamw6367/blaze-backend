@@ -9,5 +9,5 @@ exports.get = async (req, res) => {
 exports.update = async (req, res) => {
     let {id, price} = req.body;
     await DeliveryFee.update({price}, {where: {id}});
-    res.json('OK');
+    this.get(req, res);
 };

@@ -51,6 +51,8 @@ mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true}).the
     console.log('mongo connected')
 });
 
+app.set('trust proxy', true);
+
 // Non-auth routes
 app.use('/auth', require('./routes/auth'));
 app.use('/users', require('./routes/users'));

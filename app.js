@@ -40,6 +40,10 @@ const io = require('socket.io')(server, {
 const {socket} = require('./helpers/socket');
 socket(io);
 
+// Mongoose
+//Import the mongoose module
+const mongoose = require('mongoose');
+
 //Set up default mongoose connection
 const mongoDB = `mongodb://${process.env.MONGO_IP_PORT}/metltv_chat`;
 mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true}).then(t=>{

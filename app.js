@@ -37,8 +37,15 @@ const io = require('socket.io')(server, {
         origin: '*'
     }
 });
-const {socket, getMessagesFromRedis} = require('./helpers/socket');
+const {socket} = require('./helpers/socket');
 socket(io);
+
+//Set up default mongoose connection
+const mongoDB = `mongodb://${process.env.MONGO_IP_PORT}/metltv_chat`;
+mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true}).then(t=>{
+    console.log(mongoose.connection.readyState)
+    console.log('mongo connected')
+});
 
 // Non-auth routes
 app.use('/auth', require('./routes/auth'));
@@ -81,9 +88,6 @@ app.get('*', (req, res, next) => {
 
 
 //Cron job for chat messages
-cron.schedule('00 18 * * *', async() => {
-    // console.log('running a task every minute');
-    let messages = await getMessagesFromRedis();
-    const supportChatController = require('./controllers/supportChatController');
-    await supportChatController.saveRedisMessages(messages);
-});
+// cron.schedule('00 18 * * *', async() => {
+//
+// });

@@ -15,7 +15,7 @@ socket = (io) => {
             let username = user.username;
             users[username] = socket.id;
             console.log("USERS", users)
-            io.emit('userConnected', keys)
+            io.emit('userConnected', `${user.username} is connected`);
         });
 
         socket.on('sendMessage', async (data) => {

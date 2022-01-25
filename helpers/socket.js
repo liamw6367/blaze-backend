@@ -2,7 +2,7 @@ const moment = require('moment');
 
 
 let users = [];
-
+const supportChatController = require('../controllers/supportChatController');
 
 
 
@@ -14,11 +14,13 @@ socket = (io) => {
         socket.on('newUser', async (user) => {
             let username = user.username;
             users[username] = socket.id;
+            console.log("USERS", users)
+            io.emit('userConnected', keys)
         });
 
         socket.on('sendMessage', async (data) => {
-
-            io.emit('getMessages', messagesArr);
+            let messages = await supportChatController.getMessages({return:true,...data});
+            io.emit('getMessages', messages);
         })
     })
 };

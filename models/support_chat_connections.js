@@ -15,7 +15,8 @@ module.exports = (sequelize, DataTypes) => {
   };
   support_chat_connections.init({
     customer_id: DataTypes.INTEGER,
-    support_id: DataTypes.INTEGER
+    support_id: DataTypes.INTEGER,
+    status_id: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'support_chat_connections',

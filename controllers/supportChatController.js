@@ -1,20 +1,20 @@
 const db = require('../models');
 const Users = db.users;
 const ChatConnection = db.support_chat_connections;
+const ChatConnectionStatus = db.support_chat_connection_statuses;
 const SupportChatMessages = require('../mongoose/support_chat_messages');
 
 const nl2br = require('../helpers/nl2br');
 
 exports.createChatConnection = async (data) => {
     let {customer_id} = data;
-    console.log(data)
-    let c;
     let conn = await ChatConnection.findOne({where: {customer_id}});
     if (!conn) {
-        c = await ChatConnection.create({customer_id});
+        let idleStatus = await ChatConnectionStatus.findOne({where: {name: 'idle'}});
+        conn = await ChatConnection.create({customer_id, status_id: idleStatus.id});
     }
 
-    return c;
+    return conn;
 };
 
 exports.assignChatConnection = async (req, res) => {

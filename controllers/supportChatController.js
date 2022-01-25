@@ -8,6 +8,7 @@ const nl2br = require('../helpers/nl2br');
 exports.createChatConnection = async (data) => {
     let {customer_id} = data;
     let c = await ChatConnection.create({customer_id});
+    console.log(c)
     return c;
 };
 

@@ -15,7 +15,10 @@ socket = (io) => {
             let username = user.username;
             users[username] = socket.id;
             let c = await supportChatController.createChatConnection(user);
-            io.emit('userConnected', {msg:`${user.username} is connected`,...JSON.parse(JSON.stringify(c))});
+            io.emit('userConnected', {
+                msg:`${user.username} is connected`,...JSON.parse(JSON.stringify(c)),
+                ...user
+            });
         });
 
         socket.on('sendMessage', async (data) => {

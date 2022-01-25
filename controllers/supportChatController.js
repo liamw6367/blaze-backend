@@ -5,10 +5,10 @@ const SupportChatMessages = require('../mongoose/support_chat_messages');
 
 const nl2br = require('../helpers/nl2br');
 
-exports.createChatConnection = async (req, res) => {
-    let data = req.body;
-    await ChatConnection.create(data);
-    res.json('OK')
+exports.createChatConnection = async (data) => {
+    let {customer_id} = data;
+    let c = await ChatConnection.create({customer_id});
+    return c;
 };
 
 exports.assignChatConnection = async (req, res) => {

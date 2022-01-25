@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class support_chat_connections extends Model {
+  class support_chat_connection_statuses extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -13,14 +13,12 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   };
-  support_chat_connections.init({
-    customer_id: DataTypes.INTEGER,
-    support_id: DataTypes.INTEGER
+  support_chat_connection_statuses.init({
+    name: DataTypes.STRING
   }, {
     sequelize,
-    modelName: 'support_chat_connections',
-    createdAt: 'created_at',
-    updatedAt: 'updated_at'
+    modelName: 'support_chat_connection_statuses',
+    timestamps: false
   });
-  return support_chat_connections;
+  return support_chat_connection_statuses;
 };
